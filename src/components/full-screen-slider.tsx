@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect, useCallback, Dispatch, SetStateAction } from "react"
 import Image from "next/image"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 
@@ -13,6 +13,7 @@ interface Slide {
 
 interface FullScreenSliderProps {
   slides: Slide[]
+
   autoPlayInterval?: number
 }
 
@@ -30,12 +31,10 @@ export default function FullScreenSlider({ slides, autoPlayInterval = 5000 }: Fu
 
   const goToSlide = (index: number) => {
     setCurrentSlide(index)
-    // Reset autoplay timer when manually changing slides
     setIsAutoPlaying(false)
     setTimeout(() => setIsAutoPlaying(true), 100)
   }
 
-  // Auto play functionality
   useEffect(() => {
     let interval: NodeJS.Timeout
 
@@ -74,13 +73,12 @@ export default function FullScreenSlider({ slides, autoPlayInterval = 5000 }: Fu
             zIndex: index === currentSlide ? 10 : 0,
           }}
         >
-          {/* Background Image */}
           <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
             <Image
               src={slide.image || "/placeholder.svg"}
               alt={slide.title}
-              fill
               priority
+              fill
               style={{
                 objectFit: "cover",
                 filter: "brightness(0.6)",
@@ -88,7 +86,6 @@ export default function FullScreenSlider({ slides, autoPlayInterval = 5000 }: Fu
             />
           </div>
 
-          {/* Slide Content */}
           <div
             style={{
               position: "relative",
@@ -125,7 +122,6 @@ export default function FullScreenSlider({ slides, autoPlayInterval = 5000 }: Fu
         </div>
       ))}
 
-      {/* Navigation Arrows */}
       <button
         onClick={prevSlide}
         style={{
@@ -171,7 +167,6 @@ export default function FullScreenSlider({ slides, autoPlayInterval = 5000 }: Fu
         <ChevronRight style={{ width: "2rem", height: "2rem" }} />
       </button>
 
-      {/* Navigation Dots */}
       <div
         style={{
           position: "absolute",

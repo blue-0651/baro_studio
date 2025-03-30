@@ -1,119 +1,134 @@
-import Link from "next/link"
-import { Mail, Youtube, Linkedin } from "lucide-react"
+import Link from "next/link";
+
+import { Mail, Youtube, Linkedin } from "lucide-react";
 
 export default function Footer() {
   return (
     <footer
       style={{
-        width: "100%",
-        backgroundColor: "#EFEFEF",
-        padding: "1.5rem 0",
+        backgroundColor: "#D1D5DB",
+        padding: "1rem 0",
+        //marginTop: "8rem",
+        zIndex: 150,
       }}
     >
       <div
         style={{
-          maxWidth: "1200px",
+          maxWidth: "1920px",
           margin: "0 auto",
-          padding: "0 1rem",
+          padding: "0 2rem",
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
         }}
       >
+
         <div
           style={{
             display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-between",
             alignItems: "center",
+            gap: "1rem",
           }}
         >
-          {/* Social Media Icons */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "1.5rem",
-              marginBottom: "1rem",
-            }}
-          >
-            <Link href="mailto:contact@example.com" aria-label="Email" style={{ textDecoration: "none" }}>
-              <div
-                style={{
-                  width: "2rem",
-                  height: "2rem",
-                  backgroundColor: "#d1d5db",
-                  borderRadius: "9999px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Mail style={{ width: "1.25rem", height: "1.25rem", color: "#1f2937" }} />
-              </div>
-            </Link>
-            <Link
-              href="https://youtube.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="YouTube"
-              style={{ textDecoration: "none" }}
-            >
-              <div
-                style={{
-                  width: "2rem",
-                  height: "2rem",
-                  backgroundColor: "#dc2626",
-                  borderRadius: "9999px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Youtube style={{ width: "1.25rem", height: "1.25rem", color: "white" }} />
-              </div>
-            </Link>
-            <Link
-              href="https://linkedin.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="LinkedIn"
-              style={{ textDecoration: "none" }}
-            >
-              <div
-                style={{
-                  width: "2rem",
-                  height: "2rem",
-                  backgroundColor: "#2563eb",
-                  borderRadius: "9999px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Linkedin style={{ width: "1.25rem", height: "1.25rem", color: "white" }} />
-              </div>
-            </Link>
-          </div>
 
-          {/* Logo */}
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <Link
-              href="/"
+          <Link href="mailto:contact@example.com" aria-label="Email" style={{ textDecoration: 'none' }}>
+            <div
               style={{
+                width: "2.5rem",
+                height: "2.5rem",
+                border: "2px solid black",
+                borderRadius: "9999px",
                 display: "flex",
-                flexDirection: "column",
-                alignItems: "flex-end",
-                textDecoration: "none",
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: 'transparent',
               }}
             >
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <span style={{ color: "#f97316", fontSize: "1.875rem", fontWeight: "bold" }}>6</span>
-                <span style={{ color: "black", fontSize: "1.875rem", fontWeight: "bold" }}>aro</span>
-              </div>
-              <span style={{ fontSize: "0.75rem", color: "#4b5563" }}>In 6 Days Prototype & Delivery</span>
-            </Link>
-          </div>
+
+              <Mail style={{ width: "1.25rem", height: "1.25rem", color: "black" }} strokeWidth={2} />
+            </div>
+          </Link>
+
+
+          <Link
+            href="https://youtube.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="YouTube"
+            style={{ textDecoration: 'none' }}
+          >
+            <div
+              style={{
+                width: "2.5rem",
+                height: "2.5rem",
+                backgroundColor: "#FF0000",
+                borderRadius: "9999px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Youtube style={{ width: "1.25rem", height: "1.25rem", color: "white" }} />
+            </div>
+          </Link>
+
+
+          <Link
+            href="https://linkedin.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn"
+            style={{ textDecoration: 'none' }}
+          >
+            <div
+              style={{
+                width: "2.5rem",
+                height: "2.5rem",
+                backgroundColor: "#0077B5",
+                borderRadius: "9999px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Linkedin style={{ width: "1.25rem", height: "1.25rem", color: "white" }} />
+            </div>
+          </Link>
+        </div>
+
+        <div>
+          <Link
+            href="/"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-end",
+              textDecoration: "none",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "baseline", lineHeight: 1 }}>
+              <span style={{ color: "#F97316", fontSize: "2.5rem", fontWeight: "bold" }}>6</span>
+              <span style={{ color: "black", fontSize: "2.5rem", fontWeight: "bold" }}>aro</span>
+            </div>
+
+
+            <div style={{ marginTop: '0.2rem', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+              <span style={{ fontSize: "0.8rem", color: "#333333", fontWeight: '500' }}>In</span>
+
+              <span style={{
+                display: 'inline-block',
+                width: '1.5em',
+                height: '0.2em',
+                backgroundColor: '#F97316',
+                verticalAlign: 'middle',
+                marginBottom: '0.1em'
+              }}></span>
+              <span style={{ fontSize: "0.8rem", color: "#333333", fontWeight: '500' }}>Days Prototype & Delivery</span>
+            </div>
+          </Link>
         </div>
       </div>
     </footer>
-  )
+  );
 }
-
