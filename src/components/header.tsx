@@ -108,7 +108,21 @@ export default function Header() {
         },
         {
           name: lang === 'kr' ? '뉴스' : 'News',
-          href: '/company/news'
+          href: '/company/news',
+          children: [
+            {
+              name: lang === 'kr' ? '회사일정' : 'Schedule',
+              href: '/company/schedule',
+            },
+            {
+              name: lang === 'kr' ? '이벤트' : 'event',
+              href: '/company/event',
+            },
+            {
+              name: lang === 'kr' ? '채용공고' : 'Recruitment',
+              href: '/company/recruitment',
+            },
+          ]
         },
       ] as MenuItem[]
     },
