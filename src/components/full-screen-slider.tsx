@@ -9,6 +9,7 @@ interface Slide {
   title: string
   subtitle: string
   image: string
+
 }
 
 interface FullScreenSliderProps {
