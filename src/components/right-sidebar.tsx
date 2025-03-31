@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef, Dispatch, SetStateAction } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { X, ChevronDown, ChevronUp } from "lucide-react";
 

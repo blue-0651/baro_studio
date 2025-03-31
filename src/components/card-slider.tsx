@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useEffect, useCallback, Dispatch, SetStateAction } from "react"
-import Image from "next/image"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 
 interface Card {

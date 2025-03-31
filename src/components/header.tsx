@@ -71,7 +71,6 @@ export default function Header() {
   const currentPageTextColor = isMainPage ? '#EFEFEF' : '#333333';
   /** 색상정의 (변경 없음) */
   const navLinkHoverColor = "#F68E1E";
-  const navLinkDefaultColor = "white";
   const langButtonHoverColor = "#F68E1E";
   const langButtonInactiveColor = currentPageTextColor;
   const sidebarBgColor = "#EFEFEF";
@@ -190,15 +189,15 @@ export default function Header() {
         </Link>
       </div>
 
-      {/* 헤더 메인 부분 (변경 없음, position: absolute 유지) */}
+      {/* 헤더 메인 부분 , position: absolute 유지) */}
       <header
         style={{
-          position: "absolute", // 이미 absolute
+          position: "absolute",
           top: 34,
           left: 0,
           width: "100%",
-          zIndex: 50, // 로고보다는 아래
-          backgroundColor: "transparent", // 배경 투명 유지
+          zIndex: 50,
+          backgroundColor: "transparent",
         }}
       >
         <div
@@ -222,7 +221,7 @@ export default function Header() {
                 gap: "1.5rem",
               }}
             >
-              {/* 언어 변경 버튼 (handleLangChange 사용, 변경 없음) */}
+              {/* 언어 변경 버튼 (handleLangChange 사용) */}
               <div
                 style={{
                   display: "flex",
@@ -286,7 +285,7 @@ export default function Header() {
 
 
 
-        {/* 사이드바 (menuData가 Context lang 반영, 변경 없음) */}
+        {/* 사이드바 (menuData가 Context lang 반영) */}
         <Sidebar
           isOpen={menuOpen}
           onClose={() => setMenuOpen(false)}

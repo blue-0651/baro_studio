@@ -45,14 +45,12 @@ export default function About() {
                         <div>
                             <h2 className="text-3xl font-bold text-gray-900">Our Company</h2>
                             <p className="mt-4 text-lg text-gray-500">
-                                Helping Product designers and engineers receive and showcase new products in no time, BARO strives to open a world of possibilities and leaves the power in the palm of your hands - this is the core of BARO's revolution.
-
+                                Helping Product designers and engineers receive and showcase new products in no time, BARO strives to open a world of possibilities and leaves the power in the palm of your hands - this is the core of BARO&apos;s revolution.
                             </p>
                             <p className="mt-4 text-lg text-gray-500">
                                 BARO is leading in speed, quality, and innovation for mechanical components. It opens the future to unlimited options in product development by providing quick turn mechanical fabrication and minimizing the product development cycle.
                             </p>
                             <p className="mt-4 text-lg text-gray-500">We support local Korea market since 2008 and are now expanding and moving at full speed to service all global markets with Korean ethos, Ppallippalli, and Jeong.</p>
-
 
                         </div>
                         {/* 오른쪽 열 - 이미지 (컨테이너 없음) */}
