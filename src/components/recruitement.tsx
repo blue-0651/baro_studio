@@ -59,8 +59,8 @@ const initialJobData: JobPosting[] = [
     { id: 4, position: "3D CAD 기술자", experience: "2년 이상", location: "서울 강남구 (재택 가능)", employmentType: "정규직", deadline: "상시채용" },
     { id: 5, position: "PM", experience: "5년 이상", location: "경기 성남시 분당구", employmentType: "정규직", deadline: "2024-10-31" },
     { id: 6, position: "PL", experience: "경력 무관", location: "서울 강남구", employmentType: "계약직", deadline: "2024-09-25" },
-    { id: 10, position: "마케터", experience: "신입", location: "서울 강남구", employmentType: "인턴", deadline: "2024-09-18" },
-    { id: 11, position: "기술 영업 담당자", experience: "3년 이상", location: "서울 전체", employmentType: "정규직", deadline: "상시채용" },
+    { id: 7, position: "마케터", experience: "신입", location: "서울 강남구", employmentType: "인턴", deadline: "2024-09-18" },
+    { id: 8, position: "기술 영업 담당자", experience: "3년 이상", location: "서울 전체", employmentType: "정규직", deadline: "상시채용" },
 ];
 
 export default function JobPostingListTailwind() {
