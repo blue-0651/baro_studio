@@ -174,7 +174,7 @@ export default function Header() {
       >
         <div
           style={{
-            maxWidth: "1750px",
+            width: "95%",
             margin: "0 auto",
             padding: "1rem",
           }}
