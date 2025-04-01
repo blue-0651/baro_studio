@@ -13,7 +13,7 @@ import { usePathname } from 'next/navigation';
 //   setLang: Dispatch<SetStateAction<string>>;
 // }
 const BaroStudioLogo = () => (
-
+/*
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 800 400"
@@ -57,7 +57,27 @@ const BaroStudioLogo = () => (
       <rect x="0" y="0" width="20" height="20" fill="#0b3d91" opacity="0.8" />
       <circle cx="520" cy="10" r="10" fill="#0b3d91" opacity="0.8" />
     </g>
-  </svg>
+  </svg>*/
+  <Link
+    href="/"
+    style={{
+      color: "inherit",
+      textDecoration: "none",
+      display: "block",
+      width: "100%",
+      height: "100%",
+    }}
+    aria-label="Baro Studio Home"
+  >
+    <Image
+      src="logo_main.png" 
+      alt="Baro Studio Logo"
+      width={232}
+      height={120} // Adjust as needed
+      priority={true} // Optional:  Helps with performance for the first visible image
+    />
+  </Link>
+
 );
 
 
