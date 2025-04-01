@@ -12,76 +12,8 @@ import { usePathname } from 'next/navigation';
 //   lang: string;
 //   setLang: Dispatch<SetStateAction<string>>;
 // }
-const BaroStudioLogo = () => (
-/*
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 800 400"
-    width="100%"
-    height="100%"
-    preserveAspectRatio="xMidYMid meet"
-  >
-    <defs>
-      <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#f0f0f0" stopOpacity="0.8" />
-        <stop offset="100%" stopColor="#f0f0f0" stopOpacity="0" />
-      </linearGradient>
-      <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#0b3d91" />
-        <stop offset="100%" stopColor="#1a5fb4" />
-      </linearGradient>
-    </defs>
 
-    <rect x="60" y="60" width="680" height="240" rx="20" ry="20" fill="url(#bgGradient)" opacity="0.3" />
-
-    <g transform="translate(130, 200)">
-      <text fontFamily="Montserrat, sans-serif" fontWeight="700" fontSize="120" fill="url(#textGradient)">
-        BARO
-      </text>
-
-      <text fontFamily="Montserrat, sans-serif" fontWeight="300" fontSize="60" fill="#333333" x="360" y="0">
-        STUDIO
-      </text>
-    </g>
-
-    <text fontFamily="Open Sans, sans-serif" fontWeight="400" fontSize="24" fill="#555555" x="195" y="250">
-      Manufacturing Excellence
-    </text>
-
-    <g stroke="#0b3d91" strokeWidth="3" fill="none">
-      <path d="M100,150 L150,150 L150,170 L170,170" />
-      <path d="M630,150 L680,150 L680,170 L700,170" />
-    </g>
-
-    <g transform="translate(140, 140)">
-      <rect x="0" y="0" width="20" height="20" fill="#0b3d91" opacity="0.8" />
-      <circle cx="520" cy="10" r="10" fill="#0b3d91" opacity="0.8" />
-    </g>
-  </svg>*/
-  <Link
-    href="/"
-    style={{
-      color: "inherit",
-      textDecoration: "none",
-      display: "block",
-      width: "100%",
-      height: "100%",
-    }}
-    aria-label="Baro Studio Home"
-  >
-    <Image
-      src="logo_main.png" 
-      alt="Baro Studio Logo"
-      width={232}
-      height={120} // Adjust as needed
-      priority={true} // Optional:  Helps with performance for the first visible image
-    />
-  </Link>
-
-);
-
-
-/** KR,EN 선택시 영문, 한글 하위 Props를 선택할 수 있게함 */
+// 로고 부분을 단순 요소로 대체
 export default function Header() {
   const { lang, setLang } = useLang();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -197,7 +129,7 @@ export default function Header() {
 
   return (
     <div>
-
+      {/* 로고 부분을 div로 단순화 */}
       <div
         style={{
           position: "absolute",
@@ -219,7 +151,13 @@ export default function Header() {
           }}
           aria-label="Baro Studio Home"
         >
-          <BaroStudioLogo />
+          <div style={{ 
+            width: "100%", 
+            height: "100%", 
+            background: "url('/logo_main.png')",
+            backgroundSize: "contain",
+            backgroundRepeat: "no-repeat"
+          }} />
         </Link>
       </div>
 
@@ -316,8 +254,6 @@ export default function Header() {
             </div>
           )}
         </div>
-
-
 
         {/* 사이드바 (menuData가 Context lang 반영) */}
         <Sidebar
