@@ -1,7 +1,7 @@
 "use client";
 
 
-import { useState, } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Menu } from "lucide-react";
 import Sidebar, { MenuItem } from "./right-sidebar";
@@ -27,6 +27,28 @@ export default function Header() {
   const langButtonInactiveColor = currentPageTextColor;
   const sidebarBgColor = "#EFEFEF";
   const sidebarTextColor = "#333333";
+
+  // 모바일 화면 여부 확인을 위한 상태 추가
+  const [isMobile, setIsMobile] = useState(false);
+
+  // 화면 크기 변경 감지를 위한 useEffect 추가
+  useEffect(() => {
+    // 초기 로드 시 화면 크기 확인
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    // 초기 실행
+    checkMobile();
+    
+    // 화면 크기 변경 시 이벤트 리스너
+    window.addEventListener('resize', checkMobile);
+    
+    // 컴포넌트 언마운트 시 이벤트 리스너 제거
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+    };
+  }, []);
 
   // handleLangChange 함수는 이제 Context의 setLang을 사용
   const handleLangChange = (newLang: string) => {
@@ -133,10 +155,10 @@ export default function Header() {
       <div
         style={{
           position: "absolute",
-          top: "20px",
-          left: "50px",
-          width: "232px",
-          height: "120px",
+          top: isMobile ? "8px" : "15px",
+          left: isMobile ? "15px" : "30px",
+          width: isMobile ? "100px" : "180px",
+          height: isMobile ? "50px" : "90px",
           zIndex: 51
         }}
       >
@@ -161,11 +183,11 @@ export default function Header() {
         </Link>
       </div>
 
-      {/* 헤더 메인 부분 , position: absolute 유지) */}
+      {/* 헤더 메인 부분도 모바일에 맞게 조정 */}
       <header
         style={{
           position: "absolute",
-          top: 34,
+          top: isMobile ? 15 : 25,
           left: 0,
           width: "100%",
           zIndex: 50,
@@ -176,7 +198,8 @@ export default function Header() {
           style={{
             maxWidth: "1750px",
             margin: "0 auto",
-            padding: "1rem",
+            padding: isMobile ? "0.5rem" : "1rem",
+            paddingRight: isMobile ? "1rem" : "2rem",
           }}
         >
           <div
@@ -190,7 +213,7 @@ export default function Header() {
               style={{
                 display: "flex",
                 alignItems: "center",
-                gap: "1.5rem",
+                gap: isMobile ? "1rem" : "1.5rem",
               }}
             >
               {/* 언어 변경 버튼 (handleLangChange 사용) */}
@@ -200,6 +223,7 @@ export default function Header() {
                   alignItems: "center",
                   gap: "0.5rem",
                   color: langButtonInactiveColor,
+                  fontSize: isMobile ? "14px" : "16px",
                 }}
               >
                 <button
@@ -235,14 +259,19 @@ export default function Header() {
                 }}
                 onClick={() => setMenuOpen(true)}
                 aria-label="Toggle menu"
-              > <Menu style={{ width: "1.5rem", height: "1.5rem" }} /> </button>
+              > <Menu style={{ width: isMobile ? "1.2rem" : "1.5rem", height: isMobile ? "1.2rem" : "1.5rem" }} /> </button>
             </div>
           </div>
 
           {/* 네비게이션 링크 (이제 Context의 lang 사용, 변경 없음) */}
           {!menuOpen && (
-            <div style={{ marginTop: "1rem" }}>
-              <nav style={{ display: "flex", justifyContent: "flex-end", gap: "4rem" }} >
+            <div style={{ marginTop: isMobile ? "0.5rem" : "1rem" }}>
+              <nav style={{ 
+                display: "flex", 
+                justifyContent: "flex-end", 
+                gap: isMobile ? "1.5rem" : "3rem",
+                fontSize: isMobile ? "13px" : "15px",
+              }} >
                 {/* ⭐ 각 Link의 기본 color를 currentPageTextColor로 설정 */}
                 <Link href="/company/about" style={{ fontWeight: 'bold', color: currentPageTextColor, textDecoration: "none", transition: "color 0.2s" }} onMouseOver={(e) => (e.currentTarget.style.color = navLinkHoverColor)} onMouseOut={(e) => (e.currentTarget.style.color = currentPageTextColor)} >
                   {lang === 'kr' ? '회사소개' : 'Company'} </Link>
@@ -262,6 +291,7 @@ export default function Header() {
           menuData={menuData}
           sidebarBgColor={sidebarBgColor}
           sidebarTextColor={sidebarTextColor}
+          isMobile={isMobile}
         />
       </header>
     </div>

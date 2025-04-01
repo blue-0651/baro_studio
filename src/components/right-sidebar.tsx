@@ -17,6 +17,7 @@ interface SidebarProps {
     menuData: { [key: string]: { title: string; items: MenuItem[] } };
     sidebarBgColor: string;
     sidebarTextColor: string;
+    isMobile?: boolean;
 }
 
 export default function Sidebar({
@@ -25,6 +26,7 @@ export default function Sidebar({
     menuData,
     sidebarBgColor,
     sidebarTextColor,
+    isMobile = false,
 }: SidebarProps) {
     const [openSubMenus, setOpenSubMenus] = useState<{ [key: string]: boolean }>({});
     const sidebarRef = useRef<HTMLDivElement>(null);
@@ -73,47 +75,64 @@ export default function Sidebar({
         <div
             ref={sidebarRef}
             style={{
-                position: 'fixed', top: 0, right: 0, bottom: 0, width: '1000px',
-                maxWidth: '90vw',
+                position: 'fixed', top: 0, right: 0, bottom: 0, 
+                width: isMobile ? '100%' : '1000px',
+                maxWidth: isMobile ? '100vw' : '90vw',
                 backgroundColor: sidebarBgColor, zIndex: 100, overflowY: 'auto',
                 boxShadow: '-4px 0 15px rgba(0, 0, 0, 0.3)',
                 transform: isOpen ? 'translateX(0)' : 'translateX(100%)',
                 transition: 'transform 0.3s ease-out',
-                padding: '20px 0'
+                padding: isMobile ? '15px 0' : '20px 0'
             }}
         >
             {/* 닫기버튼 */}
-            <div style={{ position: 'absolute', top: '20px', right: '20px' }}>
+            <div style={{ position: 'absolute', top: isMobile ? '15px' : '20px', right: isMobile ? '15px' : '20px' }}>
                 <button
                     style={{ background: 'none', border: 'none', cursor: 'pointer', color: sidebarTextColor }}
                     onClick={handleClose}
                     aria-label="Close menu"
                 >
-                    <X size={24} />
+                    <X size={isMobile ? 20 : 24} />
                 </button>
             </div>
 
             {/* Menu 부분 */}
-            <div style={{ display: "flex", marginTop: '7vh', justifyContent: 'center', width: '100%', flexWrap: 'wrap' }}>
+            <div style={{ 
+                display: "flex", 
+                marginTop: isMobile ? '5vh' : '7vh', 
+                justifyContent: 'center', 
+                width: '100%', 
+                flexWrap: 'wrap' 
+            }}>
                 {Object.entries(menuData).map(([key, menu]) => (
                     <div
                         key={key}
                         style={{
-                            marginBottom: '10px', flex: '1', minWidth: '250px', maxWidth: '300px', padding: '0'
+                            marginBottom: '10px', 
+                            flex: '1', 
+                            minWidth: isMobile ? '200px' : '250px', 
+                            maxWidth: isMobile ? '100%' : '300px', 
+                            padding: '0'
                         }}
                     >
                         {/* Category Title */}
-                        <div style={{ padding: '15px 15px', fontSize: '18px', color: sidebarTextColor, fontWeight: 'bold', borderBottom: `1px solid ${sidebarTextColor}` }}>
+                        <div style={{ 
+                            padding: isMobile ? '12px 12px' : '15px 15px', 
+                            fontSize: isMobile ? '16px' : '18px', 
+                            color: sidebarTextColor, 
+                            fontWeight: 'bold', 
+                            borderBottom: `1px solid ${sidebarTextColor}` 
+                        }}>
                             {menu.title}
                         </div>
 
                         {/* Menu Items List */}
-                        <div style={{ marginBottom: '30px', marginTop: '10px' }}>
+                        <div style={{ marginBottom: isMobile ? '20px' : '30px', marginTop: '10px' }}>
                             {menu.items.map((item) => (
                                 <div key={item.href}>
                                     <div
                                         style={{
-                                            padding: '12px 15px',
+                                            padding: isMobile ? '10px 12px' : '12px 15px',
                                             display: 'flex',
                                             alignItems: 'center',
                                             justifyContent: 'space-between',
@@ -128,7 +147,7 @@ export default function Sidebar({
                                                 style={{
                                                     color: sidebarTextColor,
                                                     textDecoration: 'none',
-                                                    fontSize: '15px',
+                                                    fontSize: isMobile ? '14px' : '15px',
                                                     flexGrow: 1,
                                                     fontWeight: 'normal',
                                                 }}
@@ -136,14 +155,19 @@ export default function Sidebar({
                                             >
                                                 {item.name}
                                                 {key === 'capabilities' && item.description && (
-                                                    <div style={{ fontSize: '13px', color: sidebarTextColor, marginTop: '5px', fontWeight: 'normal' }}>
+                                                    <div style={{ 
+                                                        fontSize: isMobile ? '12px' : '13px', 
+                                                        color: sidebarTextColor, 
+                                                        marginTop: '5px', 
+                                                        fontWeight: 'normal' 
+                                                    }}>
                                                         {item.description}
                                                     </div>
                                                 )}
                                             </Link>
                                         ) : (
                                             <span style={{
-                                                fontSize: '15px',
+                                                fontSize: isMobile ? '14px' : '15px',
                                                 flexGrow: 1,
                                                 color: sidebarTextColor,
                                                 fontWeight: openSubMenus[item.href] ? 'bold' : 'normal',
@@ -151,7 +175,12 @@ export default function Sidebar({
                                             }}>
                                                 {item.name}
                                                 {key === 'capabilities' && item.description && (
-                                                    <div style={{ fontSize: '13px', color: sidebarTextColor, marginTop: '5px', fontWeight: 'normal' }}>
+                                                    <div style={{ 
+                                                        fontSize: isMobile ? '12px' : '13px', 
+                                                        color: sidebarTextColor, 
+                                                        marginTop: '5px', 
+                                                        fontWeight: 'normal' 
+                                                    }}>
                                                         {item.description}
                                                     </div>
                                                 )}
@@ -161,23 +190,23 @@ export default function Sidebar({
 
                                         {item.children && (
                                             openSubMenus[item.href]
-                                                ? <ChevronUp size={18} color={sidebarTextColor} />
-                                                : <ChevronDown size={18} color={sidebarTextColor} />
+                                                ? <ChevronUp size={isMobile ? 16 : 18} color={sidebarTextColor} />
+                                                : <ChevronDown size={isMobile ? 16 : 18} color={sidebarTextColor} />
                                         )}
                                     </div>
 
 
                                     {item.children && openSubMenus[item.href] && (
-                                        <div style={{ paddingLeft: '45px', paddingTop: '5px' }}>
+                                        <div style={{ paddingLeft: isMobile ? '30px' : '45px', paddingTop: '5px' }}>
                                             {item.children.map((child) => (
-                                                <div key={child.href} style={{ padding: '8px 0' }}>
+                                                <div key={child.href} style={{ padding: isMobile ? '6px 0' : '8px 0' }}>
                                                     <Link
                                                         href={child.href}
                                                         style={{
                                                             display: 'block',
                                                             color: sidebarTextColor,
                                                             textDecoration: 'none',
-                                                            fontSize: '14px',
+                                                            fontSize: isMobile ? '13px' : '14px',
                                                         }}
                                                         onClick={handleLinkClick}
                                                     >
