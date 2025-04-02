@@ -3,9 +3,9 @@
 
 // useState 제거, Header/Footer 임포트 제거
 import { useLang } from '@/context/LangContext'; // Context 훅 임포트
-import FullScreenSlider from "@/components/full-screen-slider";
-import CardSlider from "@/components/card-slider";
-import Event from "@/components/event";
+import FullScreenSlider from "@/components/main/full-screen-slider";
+import CardSlider from "@/components/main/card-slider";
+import Event from "@/components/main/event";
 
 // 슬라이더 및 카드 데이터 정의 (변경 없음)
 const slides_kr = [
