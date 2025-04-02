@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import type { Metadata } from "next";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
+import ScrollTopButton from "@/components/scroll-top-button";
 import { LangProvider } from "@/context/LangContext";
 import "./globals.css";
 
@@ -37,6 +38,7 @@ export default function RootLayout({
           <div style={{ position: 'relative', flexGrow: 1 }}>
             <Header />
             {children}
+            <ScrollTopButton />
           </div>
         </LangProvider>
         <Footer />
