@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu } from "lucide-react";
+// import { Menu } from "lucide-react"; // Menu 아이콘 제거
 import Sidebar, { MenuItem } from "./right-sidebar";
 import { useLang } from '@/context/LangContext';
 import { usePathname } from 'next/navigation';
@@ -259,12 +259,59 @@ export default function Header() {
               {/* 메뉴 토글 버튼 */}
               <button
                 style={{
-                  color: currentPageTextColor, background: "none", border: "none", cursor: "pointer",
-                  display: 'flex', alignItems: 'center', padding: 0,
+                  color: currentPageTextColor, 
+                  background: "none", 
+                  border: "none", 
+                  cursor: "pointer",
+                  display: 'flex', 
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  alignItems: 'flex-start', // 왼쪽 정렬로 변경
+                  padding: 0,
+                  width: isMobile ? "18px" : "24px",
+                  height: isMobile ? "16px" : "20px",
+                  transition: "transform 0.2s ease",
                 }}
                 onClick={() => setMenuOpen(true)}
+                onMouseOver={(e) => {
+                  const lines = e.currentTarget.querySelectorAll('div');
+                  lines.forEach(line => {
+                    line.style.backgroundColor = navLinkHoverColor;
+                  });
+                  e.currentTarget.style.transform = "scale(1.05)";
+                }}
+                onMouseOut={(e) => {
+                  const lines = e.currentTarget.querySelectorAll('div');
+                  lines.forEach(line => {
+                    line.style.backgroundColor = currentPageTextColor;
+                  });
+                  e.currentTarget.style.transform = "scale(1)";
+                }}
                 aria-label="Toggle menu"
-              > <Menu style={{ width: isMobile ? "1.2rem" : "1.5rem", height: isMobile ? "1.2rem" : "1.5rem" }} /> </button>
+              > 
+                {/* 세 개의 수평선으로 구성된 햄버거 아이콘 - 이미지와 같은 순서와 길이 */}
+                <div style={{ 
+                  width: "100%", 
+                  height: "2px", 
+                  backgroundColor: currentPageTextColor,
+                  borderRadius: "1px",
+                  transition: "background-color 0.2s ease",
+                }} />
+                <div style={{ 
+                  width: "60%", 
+                  height: "2px", 
+                  backgroundColor: currentPageTextColor,
+                  borderRadius: "1px",
+                  transition: "background-color 0.2s ease",
+                }} />
+                <div style={{ 
+                  width: "80%", 
+                  height: "2px", 
+                  backgroundColor: currentPageTextColor,
+                  borderRadius: "1px",
+                  transition: "background-color 0.2s ease",
+                }} />
+              </button>
             </div>
           </div>
 
