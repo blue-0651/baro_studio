@@ -134,7 +134,7 @@ export default function Header() {
           description: 'Experience lower tooling costs with high-quality durable parts.'
         },
         {
-          name: '+ISO',
+          name: 'ISO',
           href: '/capabilities/iso',
         },
       ] as MenuItem[]
@@ -233,18 +233,6 @@ export default function Header() {
               >
                 <button
                   style={{
-                    color: lang === 'kr' ? navLinkHoverColor : 'inherit',
-                    fontWeight: lang === 'kr' ? 'bold' : '500',
-                    background: "none", border: "none", cursor: "pointer",
-                    transition: "color 0.2s, font-weight 0.2s", padding: 0, fontSize: 'inherit',
-                  }}
-                  onClick={() => handleLangChange('kr')} // Context의 setLang 호출
-                  onMouseOver={(e) => { if (lang !== 'kr') e.currentTarget.style.color = langButtonHoverColor; }}
-                  onMouseOut={(e) => { if (lang !== 'kr') e.currentTarget.style.color = 'inherit'; }}
-                > KR </button>
-                <span>|</span>
-                <button
-                  style={{
                     color: lang === 'en' ? navLinkHoverColor : 'inherit',
                     fontWeight: lang === 'en' ? 'bold' : '500',
                     background: "none", border: "none", cursor: "pointer",
@@ -254,6 +242,18 @@ export default function Header() {
                   onMouseOver={(e) => { if (lang !== 'en') e.currentTarget.style.color = langButtonHoverColor; }}
                   onMouseOut={(e) => { if (lang !== 'en') e.currentTarget.style.color = 'inherit'; }}
                 > EN </button>
+                <span>|</span>
+                <button
+                  style={{
+                    color: lang === 'kr' ? navLinkHoverColor : 'inherit',
+                    fontWeight: lang === 'kr' ? 'bold' : '500',
+                    background: "none", border: "none", cursor: "pointer",
+                    transition: "color 0.2s, font-weight 0.2s", padding: 0, fontSize: 'inherit',
+                  }}
+                  onClick={() => handleLangChange('kr')} // Context의 setLang 호출
+                  onMouseOver={(e) => { if (lang !== 'kr') e.currentTarget.style.color = langButtonHoverColor; }}
+                  onMouseOut={(e) => { if (lang !== 'kr') e.currentTarget.style.color = 'inherit'; }}
+                > KR </button>
               </div>
 
               {/* 메뉴 토글 버튼 */}
