@@ -20,12 +20,12 @@ export default function Header() {
 
   const pathname = usePathname();
   const isMainPage = pathname === '/';
-  const currentPageTextColor = isMainPage ? '#EFEFEF' : '#333333';
+  const currentPageTextColor = '#333333';
   /** 색상정의 (변경 없음) */
   const navLinkHoverColor = "#F68E1E";
   const langButtonHoverColor = "#F68E1E";
   const langButtonInactiveColor = currentPageTextColor;
-  const sidebarBgColor = "#EFEFEF";
+  const sidebarBgColor = "#FFFBF5";
   const sidebarTextColor = "#333333";
 
   // 모바일 화면 여부 확인을 위한 상태 추가

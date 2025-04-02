@@ -86,10 +86,9 @@ export default function CardSlider({ cards, autoPlayInterval = 5000 }: CardSlide
   return (
     <div
       style={{
-
         width: "100%",
         padding: "3rem 0",
-        backgroundColor: "#1E3D59",
+        backgroundColor: "#FCFAF6",
         height: '43vh',
         marginTop: "8rem",
         marginBottom: "8rem",

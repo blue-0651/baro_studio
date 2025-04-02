@@ -56,7 +56,7 @@ export default function FullScreenSlider({ slides, autoPlayInterval = 5000 }: Fu
         width: "100%",
         height: "100vh",
         overflow: "hidden",
-        backgroundColor: "#1E3D59",
+        backgroundColor: "#FFFBF5",
       }}
     >
       {/* Slides */}

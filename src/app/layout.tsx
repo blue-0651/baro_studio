@@ -25,8 +25,8 @@ export default function RootLayout({
           margin: 0,
           padding: 0,
           fontFamily: inter.style.fontFamily,
-          backgroundColor: "#1E3D59",
-          color: "white",
+          backgroundColor: "#FFFBF5",
+          color: "#333333",
           display: 'flex',
           flexDirection: 'column',
           minHeight: '100vh'
