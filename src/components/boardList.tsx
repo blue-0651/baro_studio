@@ -146,12 +146,6 @@ export default function BoardListTailwind() {
     return (
         <div className="pt-35 pr-22 pl-22 p-10 bg-[#EFEFEF] text-[#333333] font-sans flex flex-col min-h-screen">
 
-            <div className="flex  items-center mb-8">
-
-
-                <h2 className="text-3xl font-bold text-gray-800 ">BaroStudio Board</h2>
-            </div>
-
             {/* 검색 영역 */}
             <div className="mb-5 flex justify-between">
                 <Link href="/write">
