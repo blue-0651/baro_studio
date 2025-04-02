@@ -5,18 +5,21 @@ export default function Event() {
         <div style={{
             backgroundColor: "#FFFBF5",
             width: "100%",
-            height: "40rem",
+            height: "clamp(300px, 40rem, 90vh)",
             position: "relative",
-            overflow: "hidden"
+            overflow: "hidden",
+            WebkitOverflowScrolling: "touch",
         }}>
             <Image
                 src="/event/event.png"
                 alt="이벤트"
                 fill={true}
                 priority
-
+                sizes="100vw"
                 style={{
-                    objectFit: "cover"
+                    objectFit: "cover",
+                    width: "100%",
+                    height: "100%",
                 }}
             />
         </div>

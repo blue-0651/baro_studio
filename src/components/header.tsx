@@ -159,7 +159,8 @@ export default function Header() {
           left: isMobile ? "15px" : "30px",
           width: isMobile ? "100px" : "180px",
           height: isMobile ? "50px" : "90px",
-          zIndex: 51
+          zIndex: 51,
+          maxWidth: "95%", // 최대 너비 제한
         }}
       >
         <Link
@@ -178,6 +179,7 @@ export default function Header() {
             height: "100%", 
             background: "url('/logo_main.png')",
             backgroundSize: "contain",
+            backgroundPosition: "left center",
             backgroundRepeat: "no-repeat"
           }} />
         </Link>
@@ -189,14 +191,17 @@ export default function Header() {
           position: "absolute",
           top: isMobile ? 15 : 25,
           left: 0,
+          right: 0,
           width: "100%",
           zIndex: 50,
           backgroundColor: "transparent",
+          WebkitOverflowScrolling: "touch",
         }}
       >
         <div
           style={{
             width: "95%",
+            maxWidth: "1920px",
             margin: "0 auto",
             padding: isMobile ? "0.5rem" : "1rem",
             paddingRight: isMobile ? "1rem" : "2rem",
@@ -271,13 +276,36 @@ export default function Header() {
                 justifyContent: "flex-end", 
                 gap: isMobile ? "1.5rem" : "3rem",
                 fontSize: isMobile ? "13px" : "15px",
+                flexWrap: isMobile ? "wrap" : "nowrap", // 모바일에서 필요시 줄바꿈
+                paddingBottom: isMobile ? "0.5rem" : "0", // 모바일에서 아래 여백 추가
               }} >
                 {/* ⭐ 각 Link의 기본 color를 currentPageTextColor로 설정 */}
-                <Link href="/company/about" style={{ fontWeight: 'bold', color: currentPageTextColor, textDecoration: "none", transition: "color 0.2s" }} onMouseOver={(e) => (e.currentTarget.style.color = navLinkHoverColor)} onMouseOut={(e) => (e.currentTarget.style.color = currentPageTextColor)} >
+                <Link href="/company/about" style={{ 
+                  fontWeight: 'bold', 
+                  color: currentPageTextColor, 
+                  textDecoration: "none", 
+                  transition: "color 0.2s",
+                  whiteSpace: "nowrap", // 텍스트 줄바꿈 방지
+                  padding: isMobile ? "3px 0" : "0", // 모바일에서 터치영역 넓히기
+                }} onMouseOver={(e) => (e.currentTarget.style.color = navLinkHoverColor)} onMouseOut={(e) => (e.currentTarget.style.color = currentPageTextColor)} >
                   {lang === 'kr' ? '회사소개' : 'Company'} </Link>
-                <Link href="/capabilities" style={{ fontWeight: 'bold', color: currentPageTextColor, textDecoration: "none", transition: "color 0.2s" }} onMouseOver={(e) => (e.currentTarget.style.color = navLinkHoverColor)} onMouseOut={(e) => (e.currentTarget.style.color = currentPageTextColor)} >
+                <Link href="/capabilities" style={{ 
+                  fontWeight: 'bold', 
+                  color: currentPageTextColor, 
+                  textDecoration: "none", 
+                  transition: "color 0.2s",
+                  whiteSpace: "nowrap", // 텍스트 줄바꿈 방지
+                  padding: isMobile ? "3px 0" : "0", // 모바일에서 터치영역 넓히기
+                }} onMouseOver={(e) => (e.currentTarget.style.color = navLinkHoverColor)} onMouseOut={(e) => (e.currentTarget.style.color = currentPageTextColor)} >
                   {lang === 'kr' ? '핵심역량' : 'Capabilities'} </Link>
-                <Link href="/request" style={{ fontWeight: 'bold', color: currentPageTextColor, textDecoration: "none", transition: "color 0.2s" }} onMouseOver={(e) => (e.currentTarget.style.color = navLinkHoverColor)} onMouseOut={(e) => (e.currentTarget.style.color = currentPageTextColor)} >
+                <Link href="/request" style={{ 
+                  fontWeight: 'bold', 
+                  color: currentPageTextColor, 
+                  textDecoration: "none", 
+                  transition: "color 0.2s",
+                  whiteSpace: "nowrap", // 텍스트 줄바꿈 방지
+                  padding: isMobile ? "3px 0" : "0", // 모바일에서 터치영역 넓히기
+                }} onMouseOver={(e) => (e.currentTarget.style.color = navLinkHoverColor)} onMouseOut={(e) => (e.currentTarget.style.color = currentPageTextColor)} >
                   {lang === 'kr' ? '견적요청' : 'Request'} </Link>
               </nav>
             </div>

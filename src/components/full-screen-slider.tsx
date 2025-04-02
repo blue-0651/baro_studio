@@ -55,8 +55,10 @@ export default function FullScreenSlider({ slides, autoPlayInterval = 5000 }: Fu
         position: "relative",
         width: "100%",
         height: "100vh",
+        maxHeight: "100vh",
         overflow: "hidden",
         backgroundColor: "#FFFBF5",
+        WebkitOverflowScrolling: "touch",
       }}
     >
       {/* Slides */}
@@ -68,9 +70,10 @@ export default function FullScreenSlider({ slides, autoPlayInterval = 5000 }: Fu
             inset: 0,
             width: "100%",
             height: "100%",
-            transition: "opacity 1s",
+            transition: "opacity 1s ease",
             opacity: index === currentSlide ? 1 : 0,
             zIndex: index === currentSlide ? 10 : 0,
+            willChange: "opacity",
           }}
         >
           <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
@@ -82,6 +85,8 @@ export default function FullScreenSlider({ slides, autoPlayInterval = 5000 }: Fu
               style={{
                 objectFit: "cover",
                 filter: "brightness(0.6)",
+                width: "100%",
+                height: "100%",
               }}
             />
           </div>
@@ -97,14 +102,16 @@ export default function FullScreenSlider({ slides, autoPlayInterval = 5000 }: Fu
               height: "100%",
               textAlign: "center",
               padding: "0 1rem",
+              WebkitTextSizeAdjust: "100%",
             }}
           >
             <h2
               style={{
                 color: "white",
-                fontSize: "1.875rem",
+                fontSize: "clamp(1.5rem, 5vw, 2.5rem)",
                 fontWeight: "bold",
                 marginBottom: "1rem",
+                textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
               }}
             >
               {slide.title}
@@ -112,8 +119,10 @@ export default function FullScreenSlider({ slides, autoPlayInterval = 5000 }: Fu
             <p
               style={{
                 color: "white",
-                fontSize: "1.125rem",
+                fontSize: "clamp(1rem, 2.5vw, 1.25rem)",
                 maxWidth: "48rem",
+                lineHeight: 1.5,
+                textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
               }}
             >
               {slide.subtitle}

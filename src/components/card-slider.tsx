@@ -89,10 +89,11 @@ export default function CardSlider({ cards, autoPlayInterval = 5000 }: CardSlide
         width: "100%",
         padding: "3rem 0",
         backgroundColor: "#FCFAF6",
-        height: '43vh',
-        marginTop: "8rem",
-        marginBottom: "8rem",
+        height: 'clamp(300px, 43vh, 600px)',
+        marginTop: "clamp(4rem, 8vh, 8rem)",
+        marginBottom: "clamp(4rem, 8vh, 8rem)",
         boxSizing: "border-box",
+        WebkitOverflowScrolling: "touch",
       }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
