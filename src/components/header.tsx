@@ -25,7 +25,7 @@ export default function Header() {
   const navLinkHoverColor = "#F68E1E";
   const langButtonHoverColor = "#F68E1E";
   const langButtonInactiveColor = currentPageTextColor;
-  const sidebarBgColor = "#FFFBF5";
+  const sidebarBgColor = "rgba(255, 255, 255, 0.45)"; // 더 투명하게 변경
   const sidebarTextColor = "#333333";
 
   // 모바일 화면 여부 확인을 위한 상태 추가

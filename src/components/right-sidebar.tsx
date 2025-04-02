@@ -78,10 +78,14 @@ export default function Sidebar({
                 position: 'fixed', top: 0, right: 0, bottom: 0, 
                 width: isMobile ? '100%' : '1000px',
                 maxWidth: isMobile ? '100vw' : '90vw',
-                backgroundColor: sidebarBgColor, zIndex: 100, overflowY: 'auto',
-                boxShadow: '-4px 0 15px rgba(0, 0, 0, 0.3)',
+                backgroundColor: sidebarBgColor,
+                backdropFilter: 'blur(12px)',
+                WebkitBackdropFilter: 'blur(12px)',
+                zIndex: 100, 
+                overflowY: 'auto',
+                boxShadow: '-2px 0 20px rgba(0, 0, 0, 0.15)',
                 transform: isOpen ? 'translateX(0)' : 'translateX(100%)',
-                transition: 'transform 0.3s ease-out',
+                transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
                 padding: isMobile ? '15px 0' : '20px 0'
             }}
         >
@@ -121,7 +125,7 @@ export default function Sidebar({
                             fontSize: isMobile ? '16px' : '18px', 
                             color: sidebarTextColor, 
                             fontWeight: 'bold', 
-                            borderBottom: `1px solid ${sidebarTextColor}` 
+                            borderBottom: `1px solid rgba(51, 51, 51, 0.25)`
                         }}>
                             {menu.title}
                         </div>
