@@ -75,13 +75,13 @@ export default function Sidebar({
         <div
             ref={sidebarRef}
             style={{
-                position: 'fixed', top: 0, right: 0, bottom: 0, 
+                position: 'fixed', top: 0, right: 0, bottom: 0,
                 width: isMobile ? '100%' : '1000px',
                 maxWidth: isMobile ? '100vw' : '90vw',
                 backgroundColor: sidebarBgColor,
                 backdropFilter: 'blur(15px)',
                 WebkitBackdropFilter: 'blur(15px)',
-                zIndex: 100, 
+                zIndex: 100,
                 overflowY: 'auto',
                 boxShadow: '-2px 0 20px rgba(0, 0, 0, 0.15)',
                 transform: isOpen ? 'translateX(0)' : 'translateX(100%)',
@@ -90,7 +90,7 @@ export default function Sidebar({
             }}
         >
             {/* 닫기버튼 */}
-            <div style={{ position: 'absolute', top: isMobile ? '15px' : '20px', right: isMobile ? '15px' : '20px' }}>
+            <div style={{ position: 'absolute', top: isMobile ? '30px' : '41px', right: isMobile ? '15px' : '20px' }}>
                 <button
                     style={{ background: 'none', border: 'none', cursor: 'pointer', color: sidebarTextColor }}
                     onClick={handleClose}
@@ -101,30 +101,30 @@ export default function Sidebar({
             </div>
 
             {/* Menu 부분 */}
-            <div style={{ 
-                display: "flex", 
-                marginTop: isMobile ? '5vh' : '7vh', 
-                justifyContent: 'center', 
-                width: '100%', 
-                flexWrap: 'wrap' 
+            <div style={{
+                display: "flex",
+                marginTop: isMobile ? '5vh' : '7vh',
+                justifyContent: 'center',
+                width: '100%',
+                flexWrap: 'wrap'
             }}>
                 {Object.entries(menuData).map(([key, menu]) => (
                     <div
                         key={key}
                         style={{
-                            marginBottom: '10px', 
-                            flex: '1', 
-                            minWidth: isMobile ? '200px' : '250px', 
-                            maxWidth: isMobile ? '100%' : '300px', 
+                            marginBottom: '10px',
+                            flex: '1',
+                            minWidth: isMobile ? '200px' : '250px',
+                            maxWidth: isMobile ? '100%' : '300px',
                             padding: '0'
                         }}
                     >
                         {/* Category Title */}
-                        <div style={{ 
-                            padding: isMobile ? '12px 12px' : '15px 15px', 
-                            fontSize: isMobile ? '16px' : '18px', 
-                            color: sidebarTextColor, 
-                            fontWeight: 'bold', 
+                        <div style={{
+                            padding: isMobile ? '12px 12px' : '15px 15px',
+                            fontSize: isMobile ? '16px' : '18px',
+                            color: sidebarTextColor,
+                            fontWeight: 'bold',
                             borderBottom: `1px solid rgba(51, 51, 51, 0.25)`
                         }}>
                             {menu.title}
@@ -159,11 +159,11 @@ export default function Sidebar({
                                             >
                                                 {item.name}
                                                 {key === 'capabilities' && item.description && (
-                                                    <div style={{ 
-                                                        fontSize: isMobile ? '12px' : '13px', 
-                                                        color: sidebarTextColor, 
-                                                        marginTop: '5px', 
-                                                        fontWeight: 'normal' 
+                                                    <div style={{
+                                                        fontSize: isMobile ? '12px' : '13px',
+                                                        color: sidebarTextColor,
+                                                        marginTop: '5px',
+                                                        fontWeight: 'normal'
                                                     }}>
                                                         {item.description}
                                                     </div>
@@ -179,11 +179,11 @@ export default function Sidebar({
                                             }}>
                                                 {item.name}
                                                 {key === 'capabilities' && item.description && (
-                                                    <div style={{ 
-                                                        fontSize: isMobile ? '12px' : '13px', 
-                                                        color: sidebarTextColor, 
-                                                        marginTop: '5px', 
-                                                        fontWeight: 'normal' 
+                                                    <div style={{
+                                                        fontSize: isMobile ? '12px' : '13px',
+                                                        color: sidebarTextColor,
+                                                        marginTop: '5px',
+                                                        fontWeight: 'normal'
                                                     }}>
                                                         {item.description}
                                                     </div>
