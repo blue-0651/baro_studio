@@ -7,10 +7,11 @@ interface LangContextType {
     setLang: Dispatch<SetStateAction<string>>;
 }
 
+const defaultLang = "en"; // 기본 언어를 상수로 정의
 const LangContext = createContext<LangContextType | undefined>(undefined);
 
 export function LangProvider({ children }: { children: ReactNode }) {
-    const [lang, setLang] = useState("kr"); // 기본 언어 'kr'
+    const [lang, setLang] = useState(defaultLang);
 
     return (
         <LangContext.Provider value={{ lang, setLang }}>
