@@ -4,7 +4,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 // import { Menu } from "lucide-react"; // Menu 아이콘 제거
-import Sidebar, { MenuItem } from "./right-sidebar";
+import Sidebar, { MenuItem } from "./main/right-sidebar";
 import { useLang } from '@/context/LangContext';
 import { usePathname } from 'next/navigation';
 
@@ -37,13 +37,13 @@ export default function Header() {
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 768);
     };
-    
+
     // 초기 실행
     checkMobile();
-    
+
     // 화면 크기 변경 시 이벤트 리스너
     window.addEventListener('resize', checkMobile);
-    
+
     // 컴포넌트 언마운트 시 이벤트 리스너 제거
     return () => {
       window.removeEventListener('resize', checkMobile);
@@ -142,7 +142,7 @@ export default function Header() {
     request: {
       title: lang === 'kr' ? '견적요청' : 'Request',
       items: [
-        { name: lang === 'kr' ? '견적' : 'Quote', href: '/request/quote' },
+        { name: lang === 'kr' ? '견적' : 'Quote', href: '/quote' },
       ] as MenuItem[]
     }
   };
@@ -174,9 +174,9 @@ export default function Header() {
           }}
           aria-label="Baro Studio Home"
         >
-          <div style={{ 
-            width: "100%", 
-            height: "100%", 
+          <div style={{
+            width: "100%",
+            height: "100%",
             background: "url('/logo_main.png')",
             backgroundSize: "contain",
             backgroundPosition: "left center",
@@ -259,11 +259,11 @@ export default function Header() {
               {/* 메뉴 토글 버튼 */}
               <button
                 style={{
-                  color: currentPageTextColor, 
-                  background: "none", 
-                  border: "none", 
+                  color: currentPageTextColor,
+                  background: "none",
+                  border: "none",
                   cursor: "pointer",
-                  display: 'flex', 
+                  display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
                   alignItems: 'flex-start', // 왼쪽 정렬로 변경
@@ -288,25 +288,25 @@ export default function Header() {
                   e.currentTarget.style.transform = "scale(1)";
                 }}
                 aria-label="Toggle menu"
-              > 
+              >
                 {/* 세 개의 수평선으로 구성된 햄버거 아이콘 - 이미지와 같은 순서와 길이 */}
-                <div style={{ 
-                  width: "100%", 
-                  height: "2px", 
+                <div style={{
+                  width: "100%",
+                  height: "2px",
                   backgroundColor: currentPageTextColor,
                   borderRadius: "1px",
                   transition: "background-color 0.2s ease",
                 }} />
-                <div style={{ 
-                  width: "60%", 
-                  height: "2px", 
+                <div style={{
+                  width: "60%",
+                  height: "2px",
                   backgroundColor: currentPageTextColor,
                   borderRadius: "1px",
                   transition: "background-color 0.2s ease",
                 }} />
-                <div style={{ 
-                  width: "80%", 
-                  height: "2px", 
+                <div style={{
+                  width: "80%",
+                  height: "2px",
                   backgroundColor: currentPageTextColor,
                   borderRadius: "1px",
                   transition: "background-color 0.2s ease",
@@ -318,37 +318,37 @@ export default function Header() {
           {/* 네비게이션 링크 (이제 Context의 lang 사용, 변경 없음) */}
           {!menuOpen && (
             <div style={{ marginTop: isMobile ? "0.5rem" : "1rem" }}>
-              <nav style={{ 
-                display: "flex", 
-                justifyContent: "flex-end", 
+              <nav style={{
+                display: "flex",
+                justifyContent: "flex-end",
                 gap: isMobile ? "1.5rem" : "3rem",
                 fontSize: isMobile ? "13px" : "15px",
                 flexWrap: isMobile ? "wrap" : "nowrap", // 모바일에서 필요시 줄바꿈
                 paddingBottom: isMobile ? "0.5rem" : "0", // 모바일에서 아래 여백 추가
               }} >
                 {/* ⭐ 각 Link의 기본 color를 currentPageTextColor로 설정 */}
-                <Link href="/company/about" style={{ 
-                  fontWeight: 'bold', 
-                  color: currentPageTextColor, 
-                  textDecoration: "none", 
+                <Link href="/company/about" style={{
+                  fontWeight: 'bold',
+                  color: currentPageTextColor,
+                  textDecoration: "none",
                   transition: "color 0.2s",
                   whiteSpace: "nowrap", // 텍스트 줄바꿈 방지
                   padding: isMobile ? "3px 0" : "0", // 모바일에서 터치영역 넓히기
                 }} onMouseOver={(e) => (e.currentTarget.style.color = navLinkHoverColor)} onMouseOut={(e) => (e.currentTarget.style.color = currentPageTextColor)} >
                   {lang === 'kr' ? '회사소개' : 'Company'} </Link>
-                <Link href="/capabilities" style={{ 
-                  fontWeight: 'bold', 
-                  color: currentPageTextColor, 
-                  textDecoration: "none", 
+                <Link href="/capabilities" style={{
+                  fontWeight: 'bold',
+                  color: currentPageTextColor,
+                  textDecoration: "none",
                   transition: "color 0.2s",
                   whiteSpace: "nowrap", // 텍스트 줄바꿈 방지
                   padding: isMobile ? "3px 0" : "0", // 모바일에서 터치영역 넓히기
                 }} onMouseOver={(e) => (e.currentTarget.style.color = navLinkHoverColor)} onMouseOut={(e) => (e.currentTarget.style.color = currentPageTextColor)} >
                   {lang === 'kr' ? '핵심역량' : 'Capabilities'} </Link>
-                <Link href="/request" style={{ 
-                  fontWeight: 'bold', 
-                  color: currentPageTextColor, 
-                  textDecoration: "none", 
+                <Link href="/quote" style={{
+                  fontWeight: 'bold',
+                  color: currentPageTextColor,
+                  textDecoration: "none",
                   transition: "color 0.2s",
                   whiteSpace: "nowrap", // 텍스트 줄바꿈 방지
                   padding: isMobile ? "3px 0" : "0", // 모바일에서 터치영역 넓히기
