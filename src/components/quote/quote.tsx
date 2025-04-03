@@ -25,13 +25,13 @@ type Language = 'kr' | 'en';
 type TranslationEntry = {
     [key in Language]: string;
 };
-
 type Translations = {
     selectServiceTitle: TranslationEntry;
     lastNameLabel: TranslationEntry;
     firstNameLabel: TranslationEntry;
     companyLabel: TranslationEntry;
     emailLabel: TranslationEntry;
+    requestInfoLabel: TranslationEntry;
     fileUploadLabel: TranslationEntry;
     fileSelect: TranslationEntry;
     dragDrop: TranslationEntry;
@@ -41,27 +41,30 @@ type Translations = {
     rawMaterialDownload: TranslationEntry;
     tabDownload: TranslationEntry;
     submitButton: TranslationEntry;
+    submittingButton: TranslationEntry;
     fileSizeError: TranslationEntry;
-};
-
-
+    requiredFieldError: TranslationEntry;
+    submitSuccess: TranslationEntry;
+    submitError: TranslationEntry;
+}
 type Service = {
     id: string;
     name: TranslationEntry;
     icon: IconDefinition;
 }
-
 const MAX_FILE_SIZE_MB = 20;
 const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
-
 export default function QuoteForm() {
     const { lang } = useLang() as { lang: Language };
 
     const [selectedService, setSelectedService] = useState<string>("");
     const [files, setFiles] = useState<File[]>([]);
     const [isDragging, setIsDragging] = useState(false);
-    const [fileSizeError, setFileSizeError] = useState<string | null>(null); // State for size error message
+    const [fileSizeError, setFileSizeError] = useState<string | null>(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitStatus, setSubmitStatus] = useState<{ type: 'success' | 'error', message: string } | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const formRef = useRef<HTMLFormElement>(null);
 
     const services: Service[] = [
         { id: "3d-printing", name: { kr: "3D 인쇄 외관 모델 및 엔지니어링 구성 요소", en: "3D Printing for Appearance Models & Engineering Components" }, icon: faCube },
@@ -78,6 +81,7 @@ export default function QuoteForm() {
         firstNameLabel: { kr: '이름 *', en: 'First Name *' },
         companyLabel: { kr: '회사명 *', en: 'Company Name *' },
         emailLabel: { kr: '이메일 주소 *', en: 'Email Address *' },
+        requestInfoLabel: { kr: '요청정보 (고객께서 원하시는 요청을 설명 주십시요.)', en: 'Request info. (whatever customers want to explain)' },
         fileUploadLabel: { kr: '파일 업로드', en: 'File Upload' },
         fileSelect: { kr: '파일 선택', en: 'Select file' },
         dragDrop: { kr: '또는 드래그 앤 드롭', en: 'or drag and drop' },
@@ -87,15 +91,25 @@ export default function QuoteForm() {
         rawMaterialDownload: { kr: 'Rawmaterial CNC 다운로드', en: 'Download Rawmaterial CNC' },
         tabDownload: { kr: 'TAB CNC 다운로드', en: 'Download TAB CNC' },
         submitButton: { kr: '견적 요청하기', en: 'Request Quote' },
+        submittingButton: { kr: '제출 중...', en: 'Submitting...' }, // 추가
         fileSizeError: {
             kr: `파일 크기는 ${MAX_FILE_SIZE_MB}MB를 초과할 수 없습니다. 다음 파일은 추가되지 않았습니다:`,
             en: `File size cannot exceed ${MAX_FILE_SIZE_MB}MB. The following files were not added:`
+        },
+        requiredFieldError: { // 추가
+            kr: '필수 입력 항목 (*)을 모두 채워주세요.',
+            en: 'Please fill in all required fields (*).'
+        },
+        submitSuccess: { // 추가
+            kr: '견적 요청이 성공적으로 제출되었습니다.',
+            en: 'Quote request submitted successfully.'
+        },
+        submitError: { // 추가
+            kr: '오류가 발생했습니다. 다시 시도해 주세요.',
+            en: 'An error occurred. Please try again.'
         }
     };
 
-    const handleServiceChange = (serviceId: string) => {
-        setSelectedService(serviceId);
-    };
 
     const handleDragEnter = (e: DragEvent<HTMLDivElement>) => {
         e.preventDefault();
@@ -118,12 +132,19 @@ export default function QuoteForm() {
         e.preventDefault();
         e.stopPropagation();
         setIsDragging(false);
+        setSubmitStatus(null);
 
         const droppedFiles = Array.from(e.dataTransfer.files);
         handleFiles(droppedFiles);
     };
 
+    const handleServiceChange = (serviceId: string) => {
+        setSelectedService(serviceId);
+        setSubmitStatus(null);
+    };
+
     const handleFileInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setSubmitStatus(null);
         if (e.target.files) {
             const selectedFiles = Array.from(e.target.files);
             handleFiles(selectedFiles);
@@ -139,7 +160,6 @@ export default function QuoteForm() {
         const oversizedFiles: string[] = [];
 
         newFiles.forEach((file) => {
-            debugger;
             if (file.size <= MAX_FILE_SIZE_BYTES) {
                 validFiles.push(file);
             } else {
@@ -148,15 +168,26 @@ export default function QuoteForm() {
         });
 
         if (validFiles.length > 0) {
-            setFiles((prev) => [...prev, ...validFiles]);
+            setFiles((prev) => {
+                const existingNames = new Set(prev.map(f => f.name));
+                const uniqueNewFiles = validFiles.filter(f => !existingNames.has(f.name));
+                return [...prev, ...uniqueNewFiles];
+            });
         }
 
         if (oversizedFiles.length > 0) {
             const errorMsg = `${translations.fileSizeError[lang]} ${oversizedFiles.join(', ')}`;
             setFileSizeError(errorMsg);
+            setSubmitStatus({ type: 'error', message: errorMsg });
+        } else {
+            setSubmitStatus(null);
         }
     };
 
+    const removeFile = (fileNameToRemove: string) => {
+        setFiles(prevFiles => prevFiles.filter(file => file.name !== fileNameToRemove));
+        setSubmitStatus(null);
+    };
     const getFileIcon = (fileName: string): IconDefinition => {
         const extension = fileName.split(".").pop()?.toLowerCase();
 
@@ -189,6 +220,7 @@ export default function QuoteForm() {
         const lastName = formData.get('lastName');
         const firstName = formData.get('firstName');
         const email = formData.get('email');
+        const requestInfo = formData.get('requestInfo');
 
         if (!selectedService || !lastName || !firstName || !email) {
             alert(lang === 'kr' ? '필수 입력 항목을 모두 채워주세요.' : 'Please fill in all required fields.');
@@ -202,6 +234,7 @@ export default function QuoteForm() {
             firstName: formData.get('firstName'),
             company: formData.get('company'),
             email: formData.get('email'),
+            requestInfo: requestInfo, // Log request info
             files
         });
 
@@ -209,7 +242,7 @@ export default function QuoteForm() {
 
         // fetch('/api/quote', {
         //     method: 'POST',
-        //     body: submitData, // Send FormData directly
+        //     body: formData,
         // })
         // .then(response => response.json())
         // .then(data => {
@@ -227,6 +260,7 @@ export default function QuoteForm() {
 
     return (
         <form onSubmit={handleSubmit} className="space-y-8">
+            {/* Service Selection */}
             <div className="bg-white rounded-lg shadow p-8 space-y-6">
                 <h2 className="text-xl font-semibold text-gray-900 mb-4">
                     {translations.selectServiceTitle[lang]} {!selectedService && <span className="text-red-500">*</span>}
@@ -264,9 +298,9 @@ export default function QuoteForm() {
                 <input type="hidden" name="selectedService" value={selectedService} />
             </div>
 
-            {/* 개인 정보 및 파일 업로드 */}
+            {/* Personal Info, Request Info & File Upload */}
             <div className="bg-white rounded-lg shadow p-8 space-y-6">
-                {/* 1행: 성, 이름 */}
+                {/* 1행 : 이름 */}
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div>
                         <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 ">
@@ -277,6 +311,7 @@ export default function QuoteForm() {
                             id="lastName"
                             name="lastName"
                             required
+                            placeholder="Enter your last name"
                             className="mt-1 block w-full h-10 p-3 rounded-md border-gray-300 shadow-sm focus:border-[#A6D6E7] focus:ring focus:ring-[#A6D6E7] focus:ring-opacity-50"
                         />
                     </div>
@@ -289,12 +324,13 @@ export default function QuoteForm() {
                             id="firstName"
                             name="firstName"
                             required
+                            placeholder="Enter your first name"
                             className="mt-1 block w-full h-10 p-3 rounded-md border-gray-300 shadow-sm focus:border-[#A6D6E7] focus:ring focus:ring-[#A6D6E7] focus:ring-opacity-50"
                         />
                     </div>
                 </div>
 
-                {/* 2행: 회사명 */}
+                {/* 2 행 : 회사이름름 */}
                 <div>
                     <label htmlFor="company" className="block text-sm font-medium text-gray-700">
                         {translations.companyLabel[lang]}
@@ -304,11 +340,12 @@ export default function QuoteForm() {
                         id="company"
                         name="company"
                         required // Typically required
+                        placeholder="Enter your company name"
                         className="mt-1 block h-10 p-3 w-full rounded-md border-gray-300 shadow-sm focus:border-[#A6D6E7] focus:ring focus:ring-[#A6D6E7] focus:ring-opacity-50"
                     />
                 </div>
 
-                {/* 3행: 이메일 주소 */}
+                {/* 3행 : 이메일 정보보 */}
                 <div>
                     <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                         {translations.emailLabel[lang]}
@@ -318,11 +355,26 @@ export default function QuoteForm() {
                         id="email"
                         name="email"
                         required
+                        placeholder="Enter your email address"
                         className="mt-1 block h-10 p-3 w-full rounded-md border-gray-300 shadow-sm focus:border-[#A6D6E7] focus:ring focus:ring-[#A6D6E7] focus:ring-opacity-50"
                     />
                 </div>
 
-                {/* 4행: 파일 업로드 */}
+                {/* 4행 : 요청사항 */}
+                <div>
+                    <label htmlFor="requestInfo" className="block text-sm font-medium text-gray-700">
+                        {translations.requestInfoLabel[lang]}
+                    </label>
+                    <textarea
+                        id="requestInfo"
+                        name="requestInfo"
+                        rows={4}
+                        className="mt-1 block w-full p-3 rounded-md border-gray-300 shadow-sm focus:border-[#A6D6E7] focus:ring focus:ring-[#A6D6E7] focus:ring-opacity-50"
+                        placeholder={lang === 'kr' ? '여기에 요청 사항을 입력하세요...' : 'Enter your request details here...'}
+                    />
+                </div>
+
+                {/* 5행 : 파일업로드 */}
                 <div>
                     <label className="block text-sm font-medium text-gray-700">
                         {translations.fileUploadLabel[lang]}
@@ -391,7 +443,7 @@ export default function QuoteForm() {
                     </div>
                 </div>
 
-                {/* 5행: 엑셀 파일 다운로드 */}
+                {/* 6행: 파일다운로드 */}
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                         {translations.excelDownloadLabel[lang]}
@@ -417,7 +469,7 @@ export default function QuoteForm() {
                 </div>
             </div>
 
-            {/* 제출 버튼 */}
+            {/* Submit Button */}
             <div className="flex justify-center">
                 <button
                     type="submit"
