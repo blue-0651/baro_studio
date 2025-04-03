@@ -370,7 +370,7 @@ export default function QuoteForm() {
                         name="requestInfo"
                         rows={4}
                         className="mt-1 block w-full p-3 rounded-md border-gray-300 shadow-sm focus:border-[#A6D6E7] focus:ring focus:ring-[#A6D6E7] focus:ring-opacity-50"
-                        placeholder={lang === 'kr' ? '여기에 요청 사항을 입력하세요...' : 'Enter your request details here...'}
+                        placeholder={'Enter your request details here...'}
                     />
                 </div>
 
