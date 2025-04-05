@@ -18,6 +18,7 @@ import {
     faFileArchive,
     faFile,
 } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 
 type Language = 'kr' | 'en';
@@ -171,7 +172,8 @@ export default function QuoteForm() {
             setFiles((prev) => {
                 const existingNames = new Set(prev.map(f => f.name));
                 const uniqueNewFiles = validFiles.filter(f => !existingNames.has(f.name));
-                return [...prev, ...uniqueNewFiles];
+                const newFilesList = [...prev, ...uniqueNewFiles];
+                return newFilesList;
             });
         }
 
@@ -212,50 +214,74 @@ export default function QuoteForm() {
         else return (bytes / 1048576).toFixed(1) + " MB";
     };
 
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setFileSizeError(null);
+        setIsSubmitting(true);
+        setSubmitStatus(null);
 
-        const formData = new FormData(e.currentTarget);
-        const lastName = formData.get('lastName');
-        const firstName = formData.get('firstName');
-        const email = formData.get('email');
-        const requestInfo = formData.get('requestInfo');
+        try {
+            const formEl = e.currentTarget;
+            const formData = new FormData();
 
-        if (!selectedService || !lastName || !firstName || !email) {
-            alert(lang === 'kr' ? '필수 입력 항목을 모두 채워주세요.' : 'Please fill in all required fields.');
-            return;
+            formData.append('selectedService', selectedService);
+            formData.append('lastName', (formEl.elements.namedItem('lastName') as HTMLInputElement).value);
+            formData.append('firstName', (formEl.elements.namedItem('firstName') as HTMLInputElement).value);
+            formData.append('company', (formEl.elements.namedItem('company') as HTMLInputElement).value);
+            formData.append('email', (formEl.elements.namedItem('email') as HTMLInputElement).value);
+            formData.append('requestInfo', (formEl.elements.namedItem('requestInfo') as HTMLTextAreaElement).value);
+
+            if (!selectedService ||
+                !(formEl.elements.namedItem('lastName') as HTMLInputElement).value ||
+                !(formEl.elements.namedItem('firstName') as HTMLInputElement).value ||
+                !(formEl.elements.namedItem('email') as HTMLInputElement).value) {
+                setSubmitStatus({
+                    type: 'error',
+                    message: translations.requiredFieldError[lang]
+                });
+                setIsSubmitting(false);
+                return;
+            }
+
+         
+            files.forEach((file, index) => {
+                formData.append('files', file);
+            });
+
+            const serviceObj = services.find(s => s.id === selectedService);
+            const serviceName = serviceObj ? serviceObj.name[lang] : selectedService;
+            formData.append('serviceName', serviceName);
+
+            const response = await fetch('/api/quote', {
+                method: 'POST',
+                body: formData,
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                throw new Error(result.message || '폼 제출 중 오류가 발생했습니다');
+            }
+
+            // Success
+            setSubmitStatus({
+                type: 'success',
+                message: translations.submitSuccess[lang]
+            });
+
+            formEl.reset();
+            setSelectedService("");
+            setFiles([]);
+
+        } catch (error) {
+            console.error('폼 제출 오류:', error);
+            setSubmitStatus({
+                type: 'error',
+                message: translations.submitError[lang]
+            });
+        } finally {
+            setIsSubmitting(false);
         }
-
-
-        console.log("Form submitted with data:", {
-            selectedService,
-            lastName: formData.get('lastName'),
-            firstName: formData.get('firstName'),
-            company: formData.get('company'),
-            email: formData.get('email'),
-            requestInfo: requestInfo, // Log request info
-            files
-        });
-
-        // form action 미리 정의 나중에 사용할 것
-
-        // fetch('/api/quote', {
-        //     method: 'POST',
-        //     body: formData,
-        // })
-        // .then(response => response.json())
-        // .then(data => {
-        //     console.log('Success:', data);
-        //     alert(lang === 'kr' ? '견적 요청이 성공적으로 제출되었습니다.' : 'Quote request submitted successfully.');
-        //     // Reset form? Clear state? Redirect?
-        // })
-        // .catch((error) => {
-        //     console.error('Error:', error);
-        //      alert(lang === 'kr' ? '오류가 발생했습니다. 다시 시도해 주세요.' : 'An error occurred. Please try again.');
-        // });
-
-        alert(lang === 'kr' ? '견적 요청이 제출되었습니다' : 'Quote request submitted (development).');
     };
 
     return (
@@ -469,13 +495,33 @@ export default function QuoteForm() {
                 </div>
             </div>
 
-            {/* Submit Button */}
-            <div className="flex justify-center">
+            <div className="flex flex-col items-center space-y-4">
+                {submitStatus && (
+                    <div
+                        className={`w-full max-w-md p-4 rounded-md text-center ${submitStatus.type === 'success'
+                                ? 'bg-green-100 text-green-800'
+                                : 'bg-red-100 text-red-800'
+                            }`}
+                        role="alert" 
+                    >
+                        {submitStatus.message}
+                    </div>
+                )}
+
+                {/* Submit Button */}
                 <button
                     type="submit"
-                    className="rounded-lg px-8 py-3 bg-[#F68E1E] text-white font-medium hover:bg-[#E57D0D] hover:cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#A6D6E7] transition-colors disabled:opacity-50 disabled:cursor-not-allowed" // Added disabled styles
+                    className="rounded-lg px-8 py-3 bg-[#F68E1E] text-white font-medium hover:bg-[#E57D0D] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#A6D6E7] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                    disabled={isSubmitting} // isSubmitting 상태에 따라 비활성화
                 >
-                    {translations.submitButton[lang]}
+                    {isSubmitting ? (
+                        <>
+                            <FontAwesomeIcon icon={faSpinner} spin className="mr-2" /> {/* 스피너 아이콘 추가 및 spin prop으로 애니메이션 */}
+                            {translations.submittingButton[lang]}
+                        </>
+                    ) : (
+                        translations.submitButton[lang]
+                    )}
                 </button>
             </div>
         </form>
