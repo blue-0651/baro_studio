@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import ScrollTopButton from "@/components/scroll-top-button";
+import RequestButton from "@/components/request-button";
 import { LangProvider } from "@/context/LangContext";
 import "./globals.css";
 
@@ -39,6 +40,7 @@ export default function RootLayout({
             <Header />
             {children}
             <ScrollTopButton />
+            <RequestButton />
           </div>
         </LangProvider>
         <Footer />

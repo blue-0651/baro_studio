@@ -2,11 +2,13 @@
 
 import { useState, useEffect, useCallback, Dispatch, SetStateAction } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
+import Link from "next/link"
 
 interface Card {
   id: number
   title: string
   icon: string
+  href?: string
 }
 
 interface CardSliderProps {
@@ -127,45 +129,97 @@ export default function CardSlider({ cards, autoPlayInterval = 5000 }: CardSlide
                   height: "100%",
                 }}
               >
-                <div
-                  style={{
-                    borderRadius: "0.5rem",
-                    overflow: "hidden",
-                    height: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    position: "relative",
-                    backgroundImage: `url(${card.icon || "/placeholder.svg"})`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                  }}
-                >
+                {card.href ? (
+                  <Link href={card.href} style={{ display: 'block', height: '100%', textDecoration: 'none' }}>
+                    <div
+                      style={{
+                        borderRadius: "0.5rem",
+                        overflow: "hidden",
+                        height: "100%",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        position: "relative",
+                        backgroundImage: `url(${card.icon || "/placeholder.svg"})`,
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                        cursor: "pointer",
+                        transition: "transform 0.3s ease",
+                      }}
+                      onMouseOver={(e) => {
+                        e.currentTarget.style.transform = "scale(1.03)";
+                      }}
+                      onMouseOut={(e) => {
+                        e.currentTarget.style.transform = "scale(1)";
+                      }}
+                    >
+                      <div
+                        style={{
+                          position: "absolute",
+                          inset: 0,
+                          backgroundColor: "rgba(0, 0, 0, 0.5)",
+                          borderRadius: "inherit",
+                        }}
+                      />
+
+                      <h3
+                        style={{
+                          color: "white",
+                          fontSize: "1.5rem",
+                          fontWeight: "bold",
+                          textAlign: "center",
+                          padding: "0 1rem",
+                          zIndex: 10,
+                          position: "relative",
+                          textShadow: "1px 1px 3px rgba(0, 0, 0, 0.8)",
+                        }}
+                      >
+                        {card.title}
+                      </h3>
+                    </div>
+                  </Link>
+                ) : (
                   <div
                     style={{
-                      position: "absolute",
-                      inset: 0,
-                      backgroundColor: "rgba(0, 0, 0, 0.5)",
-                      borderRadius: "inherit",
-                    }}
-                  />
-
-                  <h3
-                    style={{
-                      color: "white",
-                      fontSize: "1.5rem",
-                      fontWeight: "bold",
-                      textAlign: "center",
-                      padding: "0 1rem",
-                      zIndex: 10,
+                      borderRadius: "0.5rem",
+                      overflow: "hidden",
+                      height: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center",
                       position: "relative",
-                      textShadow: "1px 1px 3px rgba(0, 0, 0, 0.8)",
+                      backgroundImage: `url(${card.icon || "/placeholder.svg"})`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
                     }}
                   >
-                    {card.title}
-                  </h3>
-                </div>
+                    <div
+                      style={{
+                        position: "absolute",
+                        inset: 0,
+                        backgroundColor: "rgba(0, 0, 0, 0.5)",
+                        borderRadius: "inherit",
+                      }}
+                    />
+
+                    <h3
+                      style={{
+                        color: "white",
+                        fontSize: "1.5rem",
+                        fontWeight: "bold",
+                        textAlign: "center",
+                        padding: "0 1rem",
+                        zIndex: 10,
+                        position: "relative",
+                        textShadow: "1px 1px 3px rgba(0, 0, 0, 0.8)",
+                      }}
+                    >
+                      {card.title}
+                    </h3>
+                  </div>
+                )}
               </div>
             ))}
           </div>

@@ -6,6 +6,7 @@ import { useLang } from '@/context/LangContext'; // Context 훅 임포트
 import FullScreenSlider from "@/components/main/full-screen-slider";
 import CardSlider from "@/components/main/card-slider";
 import Event from "@/components/main/event";
+import Link from 'next/link';
 
 // 슬라이더 및 카드 데이터 정의 (변경 없음)
 const slides_kr = [
@@ -18,13 +19,15 @@ const slides_en = [
   { id: 2, title: "Global IT Solution", subtitle: "Supporting business growth with top technology.", image: "/main2.png" },
   { id: 3, title: "Innovative Service", subtitle: "Enhance competitiveness with customized IT services.", image: "/main3.png" },
 ];
+
+// 카드 데이터를 capabilities 메뉴 항목으로 변경
 const cards = [
-  { id: 1, title: "CNC Machining", icon: "/card1.png" },
-  { id: 2, title: "CNC Machining", icon: "/card2.png" },
-  { id: 3, title: "CNC Machining", icon: "/card3.png" },
-  { id: 4, title: "CNC Machining", icon: "/card4.png" },
-  { id: 5, title: "CNC Machining", icon: "/card5.png" },
-  { id: 6, title: "CNC Machining", icon: "/card1.png" },
+  { id: 1, title: "CNC Machining", icon: "/card1.png", href: "/capabilities/cnc" },
+  { id: 2, title: "Injection Molding", icon: "/card2.png", href: "/capabilities/injection" },
+  { id: 3, title: "3D Printing", icon: "/card3.png", href: "/capabilities/3d-printing" },
+  { id: 4, title: "Urethane Casting", icon: "/card4.png", href: "/capabilities/urethane" },
+  { id: 5, title: "Sheet Metal", icon: "/card5.png", href: "/capabilities/sheet-metal" },
+  { id: 6, title: "Compression Molding", icon: "/card1.png", href: "/capabilities/compression" },
 ];
 
 export default function Home() {

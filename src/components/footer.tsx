@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { Mail, Youtube, Linkedin } from "lucide-react";
+import Image from "next/image";
 
 export default function Footer() {
   // 모바일 화면 여부 확인을 위한 상태 추가
@@ -45,16 +46,19 @@ export default function Footer() {
           display: "flex",
           flexDirection: isMobile ? "column" : "row", // 모바일에서는 세로로 배치
           justifyContent: "space-between",
-          alignItems: isMobile ? "center" : "center",
+          alignItems: "center",
           gap: isMobile ? "1.5rem" : "0", // 모바일에서 간격 추가
+          position: "relative" // 상대 위치 설정
         }}
       >
 
+        {/* 소셜 미디어 아이콘 섹션 - 왼쪽 */}
         <div
           style={{
             display: "flex",
             alignItems: "center",
             gap: "1rem",
+            zIndex: 2 // 아이콘에 z-index 설정
           }}
         >
 
@@ -121,52 +125,85 @@ export default function Footer() {
               <Linkedin style={{ width: "1.25rem", height: "1.25rem", color: "white" }} />
             </div>
           </Link>
+
+          <Link
+            href="https://blog.naver.com/baro_studio"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Naver Blog"
+            style={{ textDecoration: 'none' }}
+          >
+            <div
+              style={{
+                width: "2.5rem",
+                height: "2.5rem",
+                backgroundColor: "#03C75A",
+                borderRadius: "9999px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <span style={{ 
+                color: "white", 
+                fontWeight: "bold", 
+                fontSize: "1rem",
+                fontFamily: "sans-serif"
+              }}>N</span>
+            </div>
+          </Link>
         </div>
 
-        <div>
+        {/* 주소와 저작권 정보 섹션 - 정중앙 */}
+        <div style={{ 
+          position: isMobile ? "static" : "absolute", 
+          left: isMobile ? "auto" : "50%", 
+          top: isMobile ? "auto" : "50%", 
+          transform: isMobile ? "none" : "translate(-50%, -50%)",
+          display: "flex", 
+          flexDirection: "column", 
+          alignItems: "center",
+          justifyContent: "center",
+          width: isMobile ? "100%" : "auto",
+          zIndex: 1 // 낮은 z-index로 설정
+        }}>
+          <div style={{ 
+            fontSize: isMobile ? "0.7rem" : "0.8rem", 
+            color: "#666666",
+            textAlign: "center"
+          }}>
+            <p style={{ margin: "0.3rem 0" }}>Address: to be announced</p>
+            <p style={{ margin: "0.3rem 0" }}>© {new Date().getFullYear()} BARO. All rights reserved.</p>
+          </div>
+        </div>
+
+        {/* 로고 섹션 - 오른쪽 */}
+        <div style={{ 
+          display: "flex", 
+          justifyContent: isMobile ? "center" : "flex-end",
+          alignItems: "center",
+          zIndex: 2 // 로고에 z-index 설정
+        }}>
           <Link
             href="/"
             style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: isMobile ? "center" : "flex-end", // 모바일에서는 중앙 정렬
+              display: "block",
               textDecoration: "none",
             }}
           >
-            <div style={{ display: "flex", alignItems: "baseline", lineHeight: 1 }}>
-              <span style={{ 
-                color: "#F97316", 
-                fontSize: isMobile ? "2rem" : "2.5rem", 
-                fontWeight: "bold" 
-              }}>6</span>
-              <span style={{ 
-                color: "black", 
-                fontSize: isMobile ? "2rem" : "2.5rem", 
-                fontWeight: "bold" 
-              }}>aro</span>
-            </div>
-
-
-            <div style={{ marginTop: '0.2rem', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-              <span style={{ 
-                fontSize: isMobile ? "0.7rem" : "0.8rem", 
-                color: "#333333", 
-                fontWeight: '500' 
-              }}>In</span>
-
-              <span style={{
-                display: 'inline-block',
-                width: '1.5em',
-                height: '0.2em',
-                backgroundColor: '#F97316',
-                verticalAlign: 'middle',
-                marginBottom: '0.1em'
-              }}></span>
-              <span style={{ 
-                fontSize: isMobile ? "0.7rem" : "0.8rem", 
-                color: "#333333", 
-                fontWeight: '500' 
-              }}>Days Prototype & Delivery</span>
+            <div style={{ 
+              position: "relative", 
+              width: isMobile ? "100px" : "120px", 
+              height: isMobile ? "50px" : "60px" 
+            }}>
+              <Image
+                src="/baro-logo_bk.png"
+                alt="Baro Logo"
+                fill
+                sizes="(max-width: 768px) 100px, 120px"
+                style={{ objectFit: "contain" }}
+                priority
+              />
             </div>
           </Link>
         </div>
