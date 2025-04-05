@@ -15,7 +15,7 @@ export default function About() {
                 <div className="max-w-8xl mx-auto">
                     <div className="relative z-10 " style={{ backgroundColor: "#EFEFEF" }}>
                         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-20 pb-16 text-center lg:pt-32">
-                            <h1 className="text-4xl tracking-tight font-bold text-gray-900 sm:text-5xl mt-16 md:text-6xl">
+                            <h1 className="text-3xl tracking-tight font-bold text-gray-900 sm:text-4xl mt-12 md:text-5xl">
                                 <span className="block" style={{ color: "#333333" }}>About BARO</span>
                                 <span className="block text-custom">Our Story & Vision</span>
                             </h1>

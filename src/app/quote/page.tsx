@@ -2,6 +2,7 @@
 
 import QuoteForm from "@/components/quote/quote";
 import { useLang } from "@/context/LangContext";
+import Image from "next/image";
 
 type Language = 'kr' | 'en';
 
@@ -27,24 +28,38 @@ export default function Home() {
     };
 
     return (
-        <main className="pt-16">
-            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-                <div className="text-center mb-12">
-                    <h1 className="text-3xl font-bold text-gray-900 mb-4 border-b pb-4">
-                        {translations.pageTitle[lang]}
-                    </h1>
-                    <p className="text-lg text-gray-600">
-                        {translations.pageSubtitle[lang]}
-                    </p>
+        <div>
+            {/* Hero Section - Company 페이지와 동일한 스타일 적용 */}
+            <section className="relative overflow-hidden">
+                <div className="max-w-8xl mx-auto">
+                    <div className="relative z-10" style={{ backgroundColor: "#EFEFEF", paddingBottom: "3rem" }}>
+                        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-20 pb-16 text-center lg:pt-32">
+                            <h1 className="text-3xl tracking-tight font-bold text-gray-900 sm:text-4xl mt-12 md:text-5xl">
+                                <span className="block" style={{ color: "#333333" }}>
+                                    {translations.pageTitle[lang]}
+                                </span>
+                                <span className="block text-custom">
+                                    {translations.pageSubtitle[lang]}
+                                </span>
+                            </h1>
+                            <p className="mt-3 max-w-md mx-auto text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
+                                {translations.responseTime[lang]}
+                            </p>
+                        </div>
+                    </div>
                 </div>
+            </section>
 
-                <QuoteForm />
-
-                <div className="mt-12 text-center text-sm text-gray-500">
-                    <p>{translations.responseTime[lang]}</p>
-                    <p>{translations.urgentContact[lang]}</p>
+            {/* 폼 섹션 */}
+            <section className="py-16 bg-white">
+                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <QuoteForm />
+                    
+                    <div className="mt-12 text-center text-sm text-gray-500">
+                        <p>{translations.urgentContact[lang]}</p>
+                    </div>
                 </div>
-            </div>
-        </main>
+            </section>
+        </div>
     )
 }

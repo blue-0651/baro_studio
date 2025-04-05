@@ -7,6 +7,7 @@ import Link from "next/link";
 import Sidebar, { MenuItem } from "./main/right-sidebar";
 import { useLang } from '@/context/LangContext';
 import { usePathname } from 'next/navigation';
+import { X } from "lucide-react";
 
 // interface HeaderProps { 
 //   lang: string;
@@ -255,7 +256,7 @@ export default function Header() {
                 > KR </button>
               </div>
 
-              {/* 메뉴 토글 버튼 */}
+              {/* 메뉴 토글 버튼 - menuOpen 상태에 따라 햄버거/X 아이콘 전환 */}
               <button
                 style={{
                   color: currentPageTextColor,
@@ -264,52 +265,77 @@ export default function Header() {
                   cursor: "pointer",
                   display: 'flex',
                   flexDirection: 'column',
-                  justifyContent: 'space-between',
-                  alignItems: 'flex-start', // 왼쪽 정렬로 변경
+                  justifyContent: menuOpen ? 'center' : 'space-between',
+                  alignItems: 'flex-start',
                   padding: 0,
                   width: isMobile ? "18px" : "24px",
                   height: isMobile ? "16px" : "20px",
                   transition: "transform 0.2s ease",
+                  zIndex: 102 // 사이드바보다 높은 z-index로 항상 위에 표시
                 }}
-                onClick={() => setMenuOpen(true)}
+                onClick={() => setMenuOpen(!menuOpen)} // 토글 기능
                 onMouseOver={(e) => {
-                  const lines = e.currentTarget.querySelectorAll('div');
-                  lines.forEach(line => {
-                    line.style.backgroundColor = navLinkHoverColor;
-                  });
+                  if (!menuOpen) {
+                    // 햄버거 아이콘인 경우
+                    const lines = e.currentTarget.querySelectorAll('div');
+                    lines.forEach(line => {
+                      line.style.backgroundColor = navLinkHoverColor;
+                    });
+                  } else {
+                    // X 아이콘인 경우
+                    e.currentTarget.style.color = navLinkHoverColor;
+                  }
                   e.currentTarget.style.transform = "scale(1.05)";
                 }}
                 onMouseOut={(e) => {
-                  const lines = e.currentTarget.querySelectorAll('div');
-                  lines.forEach(line => {
-                    line.style.backgroundColor = currentPageTextColor;
-                  });
+                  if (!menuOpen) {
+                    // 햄버거 아이콘인 경우
+                    const lines = e.currentTarget.querySelectorAll('div');
+                    lines.forEach(line => {
+                      line.style.backgroundColor = currentPageTextColor;
+                    });
+                  } else {
+                    // X 아이콘인 경우
+                    e.currentTarget.style.color = currentPageTextColor;
+                  }
                   e.currentTarget.style.transform = "scale(1)";
                 }}
-                aria-label="Toggle menu"
+                aria-label={menuOpen ? "Close menu" : "Open menu"}
               >
-                {/* 세 개의 수평선으로 구성된 햄버거 아이콘 - 이미지와 같은 순서와 길이 */}
-                <div style={{
-                  width: "100%",
-                  height: "2px",
-                  backgroundColor: currentPageTextColor,
-                  borderRadius: "1px",
-                  transition: "background-color 0.2s ease",
-                }} />
-                <div style={{
-                  width: "60%",
-                  height: "2px",
-                  backgroundColor: currentPageTextColor,
-                  borderRadius: "1px",
-                  transition: "background-color 0.2s ease",
-                }} />
-                <div style={{
-                  width: "80%",
-                  height: "2px",
-                  backgroundColor: currentPageTextColor,
-                  borderRadius: "1px",
-                  transition: "background-color 0.2s ease",
-                }} />
+                {!menuOpen ? (
+                  // 햄버거 아이콘 (메뉴가 닫혀있을 때)
+                  <>
+                    <div style={{
+                      width: "100%",
+                      height: "2px",
+                      backgroundColor: currentPageTextColor,
+                      borderRadius: "1px",
+                      transition: "background-color 0.2s ease",
+                    }} />
+                    <div style={{
+                      width: "60%",
+                      height: "2px",
+                      backgroundColor: currentPageTextColor,
+                      borderRadius: "1px",
+                      transition: "background-color 0.2s ease",
+                    }} />
+                    <div style={{
+                      width: "80%",
+                      height: "2px",
+                      backgroundColor: currentPageTextColor,
+                      borderRadius: "1px",
+                      transition: "background-color 0.2s ease",
+                    }} />
+                  </>
+                ) : (
+                  // X 아이콘 (메뉴가 열려 있을 때)
+                  <X 
+                    size={isMobile ? 18 : 24} 
+                    strokeWidth={2.5}
+                    color={currentPageTextColor} 
+                    style={{ transform: "scale(1.15)" }} // 크기를 약간 키워 햄버거 아이콘과 비슷한 시각적 크기로 조정
+                  />
+                )}
               </button>
             </div>
           </div>

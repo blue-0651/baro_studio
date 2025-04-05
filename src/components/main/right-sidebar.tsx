@@ -81,7 +81,7 @@ export default function Sidebar({
                 backgroundColor: sidebarBgColor,
                 backdropFilter: 'blur(15px)',
                 WebkitBackdropFilter: 'blur(15px)',
-                zIndex: 100,
+                zIndex: 101,
                 overflowY: 'auto',
                 boxShadow: '-2px 0 20px rgba(0, 0, 0, 0.15)',
                 transform: isOpen ? 'translateX(0)' : 'translateX(100%)',
@@ -89,17 +89,6 @@ export default function Sidebar({
                 padding: isMobile ? '15px 0' : '20px 0'
             }}
         >
-            {/* 닫기버튼 */}
-            <div style={{ position: 'absolute', top: isMobile ? '30px' : '41px', right: isMobile ? '15px' : '20px' }}>
-                <button
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: sidebarTextColor }}
-                    onClick={handleClose}
-                    aria-label="Close menu"
-                >
-                    <X size={isMobile ? 20 : 24} />
-                </button>
-            </div>
-
             {/* Menu 부분 */}
             <div style={{
                 display: "flex",
