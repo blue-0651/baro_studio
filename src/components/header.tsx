@@ -201,7 +201,6 @@ export default function Header() {
         <div
           style={{
             width: "95%",
-            maxWidth: "1920px",
             margin: "0 auto",
             padding: isMobile ? "0.5rem" : "1rem",
             paddingRight: isMobile ? "1rem" : "2rem",
