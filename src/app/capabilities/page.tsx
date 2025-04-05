@@ -57,7 +57,7 @@ export default function CapabilitiesPage() {
                 <span className="block" style={{ color: "#333333" }}>
                   {lang === 'kr' ? '핵심역량' : 'Our Capabilities'}
                 </span>
-                <span className="block text-custom">
+                <span className="block text-custom text-lg sm:text-xl md:text-2xl mt-2">
                   {lang === 'kr' ? '최고의 제조 서비스' : 'Manufacturing Excellence'}
                 </span>
               </h1>

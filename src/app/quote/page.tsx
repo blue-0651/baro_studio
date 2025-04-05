@@ -38,7 +38,7 @@ export default function Home() {
                                 <span className="block" style={{ color: "#333333" }}>
                                     {translations.pageTitle[lang]}
                                 </span>
-                                <span className="block text-custom">
+                                <span className="block text-custom text-lg sm:text-xl md:text-2xl mt-2">
                                     {translations.pageSubtitle[lang]}
                                 </span>
                             </h1>
