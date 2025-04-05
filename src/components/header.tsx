@@ -177,7 +177,7 @@ export default function Header() {
           <div style={{
             width: "100%",
             height: "100%",
-            background: "url('/logo_main.png')",
+            background: "url('/w_logo.png')",
             backgroundSize: "contain",
             backgroundPosition: "left center",
             backgroundRepeat: "no-repeat"
