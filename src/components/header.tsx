@@ -3,6 +3,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 // import { Menu } from "lucide-react"; // Menu 아이콘 제거
 import Sidebar, { MenuItem } from "./main/right-sidebar";
 import { useLang } from '@/context/LangContext';
@@ -28,6 +29,9 @@ export default function Header() {
   const langButtonInactiveColor = currentPageTextColor;
   const sidebarBgColor = "rgba(255, 255, 255, 0.05)"; // 투명도를 더 높임 (0.45 -> 0.25)
   const sidebarTextColor = "#333333";
+
+  // 로고 이미지 결정 - 메인 페이지가 아닌 경우 검은색 로고 사용
+  const logoImage = pathname === '/' ? '/w_logo.png' : '/baro-logo_bk.png';
 
   // 모바일 화면 여부 확인을 위한 상태 추가
   const [isMobile, setIsMobile] = useState(false);
@@ -178,11 +182,20 @@ export default function Header() {
           <div style={{
             width: "100%",
             height: "100%",
-            background: "url('/w_logo.png')",
-            backgroundSize: "contain",
-            backgroundPosition: "left center",
-            backgroundRepeat: "no-repeat"
-          }} />
+            position: "relative"
+          }}>
+            <Image
+              src={logoImage}
+              alt="Baro Studio Logo"
+              fill
+              priority
+              sizes="(max-width: 768px) 100px, 180px"
+              style={{
+                objectFit: "contain",
+                objectPosition: "left center"
+              }}
+            />
+          </div>
         </Link>
       </div>
 
