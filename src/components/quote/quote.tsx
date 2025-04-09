@@ -243,7 +243,6 @@ export default function QuoteForm() {
                 return;
             }
 
-         
             files.forEach((file, index) => {
                 formData.append('files', file);
             });
@@ -499,10 +498,10 @@ export default function QuoteForm() {
                 {submitStatus && (
                     <div
                         className={`w-full max-w-md p-4 rounded-md text-center ${submitStatus.type === 'success'
-                                ? 'bg-green-100 text-green-800'
-                                : 'bg-red-100 text-red-800'
+                            ? 'bg-green-100 text-green-800'
+                            : 'bg-red-100 text-red-800'
                             }`}
-                        role="alert" 
+                        role="alert"
                     >
                         {submitStatus.message}
                     </div>

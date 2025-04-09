@@ -160,11 +160,7 @@ export default function JobPostingListTailwind() {
     };
 
     return (
-        <div className="pt-35 pr-22 pl-22 p-10 bg-[#EFEFEF] text-[#333333] font-sans flex flex-col min-h-screen">
-
-            <div className="flex items-center mb-8">
-                <h2 className="text-3xl font-bold text-gray-800">채용 공고</h2>
-            </div>
+        <div className=" pr-22 pl-22 p-10 bg-white text-[#333333] font-sans flex flex-col min-h-screen">
 
             <div className="mb-5 flex justify-between items-center">
                 <Link href="/jobs/new">

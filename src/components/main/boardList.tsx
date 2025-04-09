@@ -144,7 +144,7 @@ export default function BoardListTailwind() {
         router.push(`/board/${row.id}`);
     };
     return (
-        <div className="pt-35 pr-22 pl-22 p-10 bg-[#EFEFEF] text-[#333333] font-sans flex flex-col min-h-screen">
+        <div className="pr-22 pl-22 p-10 bg-white text-[#333333] font-sans flex flex-col min-h-screen">
 
             {/* 검색 영역 */}
             <div className="mb-5 flex justify-between">
