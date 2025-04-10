@@ -21,6 +21,18 @@ export default function CapabilitiesPage() {
       image: '/card2.png',
     },
     {
+      id: 'metal-stamping',
+      name: 'Metal Stamping',
+      description: 'High-quality metal stamping solutions for your manufacturing needs.',
+      image: '/card5.png',
+    },
+    {
+      id: 'compression',
+      name: 'Compression Molding',
+          description: 'Experience lower tooling costs with high-quality durable parts.',
+      image: '/card1.png',
+    },
+    {
       id: '3d-printing',
       name: '3D Printing',
       description: 'FDM, SLA, SLS, PolyJet, MJF technologies.',
@@ -31,18 +43,6 @@ export default function CapabilitiesPage() {
       name: 'Urethane Casting',
       description: 'Production-quality parts without the tooling investment.',
       image: '/card4.png',
-    },
-    {
-      id: 'sheet-metal',
-      name: 'Sheet Metal',
-      description: 'Experience the versatility & cost efficiency with flexible application options.',
-      image: '/card5.png',
-    },
-    {
-      id: 'compression',
-      name: 'Compression Molding',
-      description: 'Experience lower tooling costs with high-quality durable parts.',
-      image: '/card1.png',
     }
   ];
 
@@ -72,7 +72,7 @@ export default function CapabilitiesPage() {
       </section>
 
       {/* Capabilities Overview */}
-      <section className="py-16 bg-white">
+      <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900">
@@ -109,7 +109,7 @@ export default function CapabilitiesPage() {
       </section>
 
       {/* Why Choose Us */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900">

@@ -119,6 +119,16 @@ export default function Header() {
           description: 'Production-grade resin tooling, as fast as possible.'
         },
         {
+          name: 'Metal Stamping',
+          href: '/capabilities/metal-stamping',
+          description: 'High-quality metal stamping solutions for your manufacturing needs.'
+        },
+        {
+          name: 'Compression Molding',
+          href: '/capabilities/compression',
+          description: 'Experience lower tooling costs with high-quality durable parts.'
+        },
+        {
           name: '3D Printing',
           href: '/capabilities/3d-printing',
           description: 'FDM, SLA, SLS, PolyJet, MJF technologies.'
@@ -127,27 +137,16 @@ export default function Header() {
           name: 'Urethane Casting',
           href: '/capabilities/urethane',
           description: 'Production-quality parts without the tooling investment.'
-        },
-        {
-          name: 'Sheet Metal',
-          href: '/capabilities/sheet-metal',
-          description: 'Experience the versatility & cost efficiency with flexible application options.'
-        },
-        {
-          name: 'Compression Molding',
-          href: '/capabilities/compression',
-          description: 'Experience lower tooling costs with high-quality durable parts.'
-        },
-        {
-          name: 'ISO',
-          href: '/capabilities/iso',
-        },
+        }
       ] as MenuItem[]
     },
     request: {
       title: lang === 'kr' ? '견적요청' : 'Request',
       items: [
-        { name: lang === 'kr' ? '견적' : 'Quote', href: '/quote' },
+        { 
+          name: lang === 'kr' ? '견적' : 'Quote', 
+          href: '/quote' 
+        }
       ] as MenuItem[]
     }
   };

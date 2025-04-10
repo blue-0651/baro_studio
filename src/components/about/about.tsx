@@ -38,7 +38,7 @@ export default function About() {
             </section>
 
             {/* Company Overview */}
-            <section className="py-16 bg-white">
+            <section className="py-16">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="lg:grid lg:grid-cols-2 lg:gap-8 lg:items-start">
                         {/* 왼쪽 열 - 텍스트 내용 (스크롤 없음) */}
@@ -101,7 +101,7 @@ export default function About() {
             </section>
 
             {/* BARO's Core Values */}
-            <section className="py-16 bg-gray-50">
+            <section className="py-16">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center">
                         <h2 className="text-3xl font-bold text-gray-900">BARO's Core Values</h2>
@@ -136,7 +136,7 @@ export default function About() {
             </section>
 
             {/* BARO's Growth Story */}
-            <section className="py-16 bg-white">
+            <section className="py-16">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-16">
                         <h2 className="text-3xl font-bold text-gray-900">BARO's Growth Story</h2>
@@ -180,7 +180,8 @@ export default function About() {
                 </div>
             </section>
 
-            <section className="py-16 bg-gray-50">
+            {/* Our New Company */}
+            <section className="py-16">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-8 sm:mb-12"> {/* Added margin bottom */}
                         <h2 className="text-3xl font-bold text-gray-900">Our New Company</h2>

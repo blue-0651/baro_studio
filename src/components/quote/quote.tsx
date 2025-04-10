@@ -68,12 +68,12 @@ export default function QuoteForm() {
     const formRef = useRef<HTMLFormElement>(null);
 
     const services: Service[] = [
-        { id: "3d-printing", name: { kr: "3D 인쇄 외관 모델 및 엔지니어링 구성 요소", en: "3D Printing for Appearance Models & Engineering Components" }, icon: faCube },
         { id: "cnc", name: { kr: "CNC 가공", en: "CNC Machining" }, icon: faCogs },
+        { id: "injection", name: { kr: "사출 성형", en: "Injection Molding" }, icon: faIndustry },
+        { id: "metal-stamping", name: { kr: "금속 스탬핑", en: "Metal Stamping" }, icon: faHammer },
         { id: "compression", name: { kr: "압축 성형", en: "Compression Molding" }, icon: faCompress },
-        { id: "molding", name: { kr: "우레탄 주조 및 사출 성형", en: "Urethane Casting & Injection Molding" }, icon: faIndustry },
-        { id: "stamping", name: { kr: "금속 스탬핑", en: "Metal Stamping" }, icon: faHammer },
-        { id: "combined", name: { kr: "결합된 서비스", en: "Combined Services" }, icon: faLayerGroup },
+        { id: "3d-printing", name: { kr: "3D 프린팅", en: "3D Printing" }, icon: faCube },
+        { id: "urethane", name: { kr: "우레탄 주조", en: "Urethane Casting" }, icon: faIndustry }
     ];
 
     const translations: Translations = {
