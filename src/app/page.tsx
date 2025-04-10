@@ -24,10 +24,11 @@ const slides_en = [
 const cards = [
   { id: 1, title: "CNC Machining", icon: "/card1.png", href: "/capabilities/cnc" },
   { id: 2, title: "Injection Molding", icon: "/card2.png", href: "/capabilities/injection" },
-  { id: 3, title: "3D Printing", icon: "/card3.png", href: "/capabilities/3d-printing" },
-  { id: 4, title: "Urethane Casting", icon: "/card4.png", href: "/capabilities/urethane" },
-  { id: 5, title: "Sheet Metal", icon: "/card5.png", href: "/capabilities/sheet-metal" },
-  { id: 6, title: "Compression Molding", icon: "/card1.png", href: "/capabilities/compression" },
+  { id: 3, title: "Metal Stamping", icon: "/card5.png", href: "/capabilities/metal-stamping" },
+  { id: 4, title: "Compression Molding", icon: "/card1.png", href: "/capabilities/compression" },
+  { id: 5, title: "3D Printing", icon: "/card3.png", href: "/capabilities/3d-printing" },
+  { id: 6, title: "Urethane Casting", icon: "/card4.png", href: "/capabilities/urethane" },
+
 ];
 
 export default function Home() {
