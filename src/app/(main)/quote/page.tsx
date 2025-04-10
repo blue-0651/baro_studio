@@ -50,11 +50,11 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* 폼 섹션 */}
-            <section className="py-16 bg-white">
-                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Quote Form Section */}
+            <section className="py-16">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <QuoteForm />
-                    
+
                     <div className="mt-12 text-center text-sm text-gray-500">
                         <p>{translations.urgentContact[lang]}</p>
                     </div>
