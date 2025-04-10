@@ -7,6 +7,9 @@ import ScrollTopButton from "@/components/scroll-top-button";
 import RequestButton from "@/components/request-button";
 import { LangProvider } from "@/context/LangContext";
 import "./globals.css";
+import 'primereact/resources/themes/lara-light-blue/theme.css';
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css';
 
 const inter = Inter({ subsets: ["latin"] });
 
