@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/api/recruitement/[id]/route.js", "src/app/api/recruitement/route.js", "src/app/api/board/route.js", "src/app/api/board/[id]/route.js"],
   "exclude": ["node_modules"]
 }

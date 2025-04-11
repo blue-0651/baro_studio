@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Manager {
+  id       Int    @id @default(autoincrement())
+  password String 
+  posts    Post[]
+}
+
+
+model Post {
+
+  boardId   Int      @id @default(autoincrement()) @map("board_id")
+  title     String
+  createdAt DateTime @default(now()) @map("created_at") 
+  isNotice  Boolean  @default(false) @map("notice_yn")  
+  content   String?
+
+  managerId Int     @map("manager_id") 
+  manager   Manager @relation(fields: [managerId], references: [id]) 
+
+  files     File[]
+
+  @@map("board")
+}
+
+
+model File {
+  id          Int      @id @default(autoincrement())
+  filename    String   
+  storagePath String   @unique 
+  url         String? 
+  mimeType    String?  
+  sizeBytes   Int?   
+  uploadedAt  DateTime @default(now()) @map("uploaded_at") 
+
+  postId Int  @map("post_id") 
+  post   Post @relation(fields: [postId], references: [boardId], onDelete: Cascade)
+
+  @@index([postId])
+  @@map("board_files")
+}
