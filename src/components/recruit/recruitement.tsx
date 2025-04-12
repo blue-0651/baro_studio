@@ -160,7 +160,7 @@ export default function JobPostingListTailwind() {
     };
 
     return (
-        <div className=" pr-22 pl-22 p-10 bg-white text-[#333333] font-sans flex flex-col min-h-screen">
+        <div className=" pr-22 pl-22 p-10 bg-[#FFFBF5] text-[#333333] font-sans flex flex-col min-h-screen">
 
             <div className="mb-5 flex justify-between items-center">
                 <Link href="/jobs/new">
