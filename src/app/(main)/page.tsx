@@ -66,6 +66,7 @@ export default function Home() {
 
   return (
     <main>
+
       <FullScreenSlider slides={currentSlides} />
       <CardSlider cards={currentCards} />
       <Event />

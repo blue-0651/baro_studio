@@ -9,7 +9,7 @@ datasource db {
 }
 
 model Manager {
-  id       Int    @id @default(autoincrement())
+  id       String    @id
   password String 
   posts    Post[]
 }
@@ -23,7 +23,7 @@ model Post {
   isNotice  Boolean  @default(false) @map("notice_yn")  
   content   String?
 
-  managerId Int     @map("manager_id") 
+  managerId String     @map("manager_id") 
   manager   Manager @relation(fields: [managerId], references: [id]) 
 
   files     File[]
@@ -46,4 +46,18 @@ model File {
 
   @@index([postId])
   @@map("board_files")
+}
+
+model Job {
+  id              Int      @id @default(autoincrement())
+  title           String
+  experience      String   
+  location        String   
+  employmentType  String  
+  deadline        DateTime? 
+  isAlwaysRecruiting Boolean @default(false) @map("always_recruiting_yn") 
+  createdAt       DateTime @default(now()) @map("created_at") 
+  content         String?
+
+  @@map("jobs")
 }
