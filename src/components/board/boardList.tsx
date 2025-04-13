@@ -76,7 +76,7 @@ const fetchBoardPosts = async (): Promise<Post[]> => {
             createdAt: formattedDate,
             boardId: post.boardId,
             title: post.title,
-            managerId: post.managerId && '관리자',
+            managerId: post.managerId && 'admin',
             isNotice: post.isNotice,
         };
     });
@@ -160,7 +160,7 @@ export default function BoardListTailwind() {
     });
 
     const handleRowClick = (post: Post) => {
-        router.push(`/board/${post.boardId}`);
+        router.push(`company/board/${post.boardId}`);
     };
 
     if (isLoading) {
@@ -181,7 +181,7 @@ export default function BoardListTailwind() {
         <div className="pr-22 pl-22 p-10 bg-[#FFFBF5] text-[#333333] font-sans flex flex-col min-h-screen">
 
             <div className="mb-5 flex justify-between">
-                <Link href="/write">
+                <Link href="/company/board/create">
                     <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out">
                         <IconPencil className="w-4 h-4" />
                         글쓰기
@@ -227,7 +227,7 @@ export default function BoardListTailwind() {
                                         <span className="inline-block bg-blue-100 text-blue-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">공지</span>
                                     </td>
                                     <td className="px-6 py-4 text-left font-semibold text-sky-800 truncate">{post.title}</td>
-                                    <td className="px-6 py-4 text-center text-sm text-gray-700">{(post.managerId ? '관리자' : '')}</td>
+                                    <td className="px-6 py-4 text-center text-sm text-gray-700">{(post.managerId ? 'admin' : '')}</td>
                                     <td className="px-6 py-4 text-center text-sm text-gray-700">{post.createdAt}</td>
                                 </tr>
                             ))

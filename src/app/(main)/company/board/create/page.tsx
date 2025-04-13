@@ -1,5 +1,5 @@
-"use client";
-import BoardList from '@/components/board/boardList';
+'use client';
+import PostForm from "@/components/board/board-form"
 import { useLang } from "@/context/LangContext";
 
 type Language = 'kr' | 'en';
@@ -14,15 +14,14 @@ type HomeTranslations = {
 
 };
 
+export default function CreatePostPage() {
 
-export default function BoardPage() {
     const { lang } = useLang() as { lang: Language };
 
     const translations: HomeTranslations = {
         pageTitle: { kr: '공지사항', en: 'Notices' },
         pageSubtitle: { kr: '중요한 소식과 업데이트를 확인하세요.', en: 'Check here for important news and updates.' },
     };
-
     return (
         <div>
             <section className="relative overflow-hidden">
@@ -42,7 +41,7 @@ export default function BoardPage() {
                     </div>
                 </div>
             </section>
-            <BoardList />
+            <PostForm />
         </div>
     )
 }
