@@ -7,9 +7,11 @@ export const getQuery = async (url) => {
 //readDetail
 export const getQueryDetail = async (url) => {
   const response = await fetch(`${url}`);
-
-  const result = await response.json();
-  return result.success ? result.data : [];
+  let result = [];
+  if (response.ok) {
+    result = await response.json();
+  }
+  return result;
 };
 //create
 export const postQuery = async (url, insertData) => {

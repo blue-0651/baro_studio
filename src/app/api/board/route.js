@@ -1,23 +1,18 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
-
-const prisma = new PrismaClient();
 
 export async function GET(request) {
   try {
     const posts = await prisma.post.findMany({
       orderBy: [{ isNotice: "desc" }, { createdAt: "desc" }],
-      include: {
+      select: {
+        boardId: true,
+        title: true,
+        isNotice: true,
+        createdAt: true,
         manager: {
           select: {
             id: true,
-          },
-        },
-        files: {
-          select: {
-            id: true,
-            filename: true,
-            url: true,
           },
         },
       },

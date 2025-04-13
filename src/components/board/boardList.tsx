@@ -160,7 +160,7 @@ export default function BoardListTailwind() {
     });
 
     const handleRowClick = (post: Post) => {
-        router.push(`company/board/${post.boardId}`);
+        router.push(`/company/board/${post.boardId}`);
     };
 
     if (isLoading) {
