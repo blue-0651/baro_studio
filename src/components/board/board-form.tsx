@@ -112,7 +112,11 @@ export default function PostForm() {
 
         const imageUploadPromises: Promise<{ dataUrl: string, publicUrl: string }>[] = []
         const attachmentUploadPromises: Promise<AttachmentInputData>[] = []
-
+        const generateUniqueFilename = (originalName : string) => {
+            const fileExt = originalName.split('.').pop();
+            return `${Date.now()}-${Math.random().toString(36).substring(2, 10)}.${fileExt}`;
+        };
+          
         // --- 1. 에디터 이미지 업로드 준비 ---
         const editorImagesToUpload = new Map<string, File>()
         editorImages.forEach((file, dataUrl) => {
@@ -122,7 +126,7 @@ export default function PostForm() {
                 // *** 파일 이름 URL 인코딩 적용 ***
                 const sanitizedBaseName = file.name.replace(/\s+/g, '_'); // 공백 처리
                 const encodedName = encodeURIComponent(sanitizedBaseName); // URL 인코딩
-                const imageFilePath = `public/posts/${Date.now()}-${encodedName}`; // 인코딩된 이름 사용
+                const imageFilePath = `public/posts/${generateUniqueFilename(file.name)}`;
 
                 console.log("[DEBUG] Uploading editor image with path:", imageFilePath);
 
@@ -158,7 +162,8 @@ export default function PostForm() {
 
         // --- 2. 첨부파일 업로드 준비 ---
         files.forEach((file) => {
-            const attachmentStoragePath = `public/attachments/${Date.now()}-${file.name.replace(/\s+/g, '_')}`; // 고유 경로 생성
+            const attachmentStoragePath = `public/attachments/${generateUniqueFilename(file.name)}`;
+
             // 업로드 Promise 생성
             attachmentUploadPromises.push(
                 new Promise(async (resolve, reject) => {
@@ -231,12 +236,12 @@ export default function PostForm() {
 
             // --- 4. HTML 내용에서 에디터 이미지 data:URL 교체 ---
             if (editorUploadResults.length > 0) {
-                console.log("Replacing editor image data:URLs with Supabase public URLs...");
+                console.log("Replacing editor image data:URLs with Supabase URLs...");
                 editorUploadResults.forEach(({ dataUrl, publicUrl }) => {
-                    finalHtmlContent = finalHtmlContent.replaceAll(`src="${dataUrl}"`, `src="${publicUrl}"`);
+                    finalHtmlContent = finalHtmlContent.replaceAll(dataUrl, publicUrl);
                 });
-                console.log("Replacement complete for editor images.");
             }
+
 
             // --- 5. 최종 데이터 준비 ---
             const postData = {
