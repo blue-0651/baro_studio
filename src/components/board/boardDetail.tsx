@@ -211,7 +211,7 @@ export default function BoardDetailPage() {
                             onClick={() => router.push(`/company/board/update/${post.boardId}`)}
                             disabled={isDeleting}
                         >
-                            eidt
+                            Edit
                         </Button>
                         <Button
                             variant="destructive"
@@ -221,7 +221,7 @@ export default function BoardDetailPage() {
                             className="flex items-center gap-1"
                         >
                             {isDeleting && <Loader2 className="h-4 w-4 animate-spin" />}
-                            {isDeleting ? 'deleting...' : 'delete'}
+                            {isDeleting ? 'deleting...' : 'Delete'}
                         </Button>
                     </div>
                 )
