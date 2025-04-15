@@ -1,5 +1,4 @@
-"use client";
-
+'use client'
 import { useState, type FormEvent, useEffect } from 'react';
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from 'next/navigation';

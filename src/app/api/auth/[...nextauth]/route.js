@@ -14,45 +14,57 @@ const authOptions = {
       async authorize(credentials, req) {
         if (!credentials?.adminId || !credentials?.password) return null;
 
+        // ✅ `adminId` 사용하여 관리자 정보 가져오기
         const manager = await prisma.manager.findUnique({
-          where: { id: credentials.adminId },
+          where: { id: credentials.adminId }, // adminId 사용
         });
 
         if (!manager || !manager.password) return null;
 
+        // ✅ 비밀번호 확인
         const isPasswordValid = await bcrypt.compare(
           credentials.password,
           manager.password
         );
 
-        return isPasswordValid ? { id: manager.id } : null;
+        if (!isPasswordValid) return null;
+
+        // ✅ 최소한 id, name, email 포함
+        return {
+          id: manager.id,
+          name: manager.name ?? manager.id,
+          email: manager.email ?? `${manager.id}@example.com`,
+        };
       },
     }),
   ],
   callbacks: {
     async jwt({ token, user }) {
-      if (user?.id) {
-        token.sub = user.id;
+      if (user) {
+        token.id = user.id;
+        token.name = user.name;
+        token.email = user.email;
       }
       return token;
     },
     async session({ session, token }) {
-      if (token?.sub && session.user) {
-        session.user.id = token.sub;
+      if (session.user) {
+        session.user.id = token.id;
+        session.user.name = token.name;
+        session.user.email = token.email;
       }
       return session;
     },
   },
   session: {
     strategy: "jwt",
-    maxAge: 24 * 60 * 60,
+    maxAge: 24 * 60 * 60, // 1일
   },
   pages: {
-    signIn: "/login",
+    signIn: "/login", // 커스텀 로그인 페이지
   },
   secret: process.env.NEXTAUTH_SECRET,
 };
 
-// 👇 이렇게만 export 해주세요
 const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };
