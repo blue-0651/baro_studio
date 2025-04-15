@@ -3,7 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import prisma from "@/lib/prisma";
 import bcrypt from "bcrypt";
 
-export const authOptions = {
+const authOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -12,52 +12,30 @@ export const authOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
-        try {
-          if (!credentials?.adminId || !credentials?.password) {
-            return null;
-          }
-          const manager = await prisma.manager.findUnique({
-            where: { id: credentials.adminId },
-          });
-          if (!manager || !manager.password) {
-            return null;
-          }
-          const isPasswordValid = await bcrypt.compare(
-            credentials.password,
-            manager.password
-          );
-          if (!isPasswordValid) {
-            return null;
-          }
-          // Return only the necessary identifier
-          return { id: manager.id };
-        } catch (error) {
-          // Log the error on the server for debugging if needed
-          // console.error("Authorize error:", error);
-          return null;
-        }
+        if (!credentials?.adminId || !credentials?.password) return null;
+
+        const manager = await prisma.manager.findUnique({
+          where: { id: credentials.adminId },
+        });
+
+        if (!manager || !manager.password) return null;
+
+        const isPasswordValid = await bcrypt.compare(
+          credentials.password,
+          manager.password
+        );
+
+        return isPasswordValid ? { id: manager.id } : null;
       },
     }),
   ],
   callbacks: {
-    /**
-     * @param {object} params
-     * @param {import("next-auth/jwt").JWT} params.token
-     * @param {import("next-auth").User} params.user
-     * @returns {Promise<import("next-auth/jwt").JWT>}
-     */
     async jwt({ token, user }) {
       if (user?.id) {
         token.sub = user.id;
       }
       return token;
     },
-    /**
-     * @param {object} params
-     * @param {import("next-auth").Session} params.session
-     * @param {import("next-auth/jwt").JWT} params.token
-     * @returns {Promise<import("next-auth").Session>}
-     */
     async session({ session, token }) {
       if (token?.sub && session.user) {
         session.user.id = token.sub;
@@ -67,7 +45,7 @@ export const authOptions = {
   },
   session: {
     strategy: "jwt",
-    maxAge: 24 * 60 * 60, // 1 day
+    maxAge: 24 * 60 * 60,
   },
   pages: {
     signIn: "/login",
@@ -75,5 +53,6 @@ export const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
 };
 
+// 👇 이렇게만 export 해주세요
 const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };
