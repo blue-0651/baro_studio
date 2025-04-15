@@ -33,6 +33,7 @@ type Translations = {
     companyLabel: TranslationEntry;
     emailLabel: TranslationEntry;
     requestInfoLabel: TranslationEntry;
+    requestInfo: TranslationEntry;
     fileUploadLabel: TranslationEntry;
     fileSelect: TranslationEntry;
     dragDrop: TranslationEntry;
@@ -83,6 +84,10 @@ export default function QuoteForm() {
         companyLabel: { kr: '회사명 *', en: 'Company Name *' },
         emailLabel: { kr: '이메일 주소 *', en: 'Email Address *' },
         requestInfoLabel: { kr: '요청정보 (고객께서 원하시는 요청을 설명 주십시요.)', en: 'Request info. (whatever customers want to explain)' },
+        requestInfo: {
+            kr: '\n금형 관련 참고사항- \n금형 수명: 최대 몇 회 생산(사출)이 필요한 금형인가요?\n시제품용 또는 양산/완제품용인지 표시해주세요.',
+            en: '\nFor Tooling -\nTooling life: What is the maximum number of shots required from this tool?\nPlease indicate prototype or production/finished product.'
+        },
         fileUploadLabel: { kr: '파일 업로드', en: 'File Upload' },
         fileSelect: { kr: '파일 선택', en: 'Select file' },
         dragDrop: { kr: '또는 드래그 앤 드롭', en: 'or drag and drop' },
@@ -389,6 +394,9 @@ export default function QuoteForm() {
                 <div>
                     <label htmlFor="requestInfo" className="block text-sm font-medium text-gray-700">
                         {translations.requestInfoLabel[lang]}
+                    </label>
+                    <label htmlFor="requestInfo" className="block text-sm font-medium text-gray-700 whitespace-pre-line">
+                        {translations.requestInfo[lang]}
                     </label>
                     <textarea
                         id="requestInfo"

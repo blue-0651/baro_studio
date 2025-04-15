@@ -129,7 +129,7 @@ export default function Header() {
           description: 'Experience lower tooling costs with high-quality durable parts.'
         },
         {
-          name: '3D Printing',
+          name: '3D Pringting',
           href: '/capabilities/3d-printing',
           description: 'FDM, SLA, SLS, PolyJet, MJF technologies.'
         },
@@ -143,9 +143,9 @@ export default function Header() {
     request: {
       title: lang === 'kr' ? '견적요청' : 'Request',
       items: [
-        { 
-          name: lang === 'kr' ? '견적' : 'Quote', 
-          href: '/quote' 
+        {
+          name: lang === 'kr' ? '견적' : 'Quote',
+          href: '/quote'
         }
       ] as MenuItem[]
     }
@@ -341,10 +341,10 @@ export default function Header() {
                   </>
                 ) : (
                   // X 아이콘 (메뉴가 열려 있을 때)
-                  <X 
-                    size={isMobile ? 18 : 24} 
+                  <X
+                    size={isMobile ? 18 : 24}
                     strokeWidth={2.5}
-                    color={currentPageTextColor} 
+                    color={currentPageTextColor}
                     style={{ transform: "scale(1.15)" }} // 크기를 약간 키워 햄버거 아이콘과 비슷한 시각적 크기로 조정
                   />
                 )}
@@ -354,23 +354,25 @@ export default function Header() {
 
           {/* 네비게이션 링크 (이제 Context의 lang 사용, 변경 없음) */}
           {!menuOpen && (
-            <div style={{ marginTop: isMobile ? "0.5rem" : "1rem" }}>
+            <div style={{ marginTop: isMobile ? ".5rem" : "2.1rem", marginRight: isMobile ? ".5rem" : "11.42rem" }}>
               <nav style={{
                 display: "flex",
                 justifyContent: "flex-end",
-                gap: isMobile ? "1.5rem" : "3rem",
-                fontSize: isMobile ? "13px" : "15px",
-                flexWrap: isMobile ? "wrap" : "nowrap", // 모바일에서 필요시 줄바꿈
-                paddingBottom: isMobile ? "0.5rem" : "0", // 모바일에서 아래 여백 추가
+                // ⭐ gap 값을 유지하거나 사이드바의 marginBottom과 시각적으로 맞춰 조절
+                gap: isMobile ? "1.5rem" : "12.85rem",
+                // ⭐ fontSize 값을 사이드바와 동일하게 유지
+                fontSize: isMobile ? "13px" : "18px",
+                flexWrap: isMobile ? "wrap" : "nowrap",
+                paddingBottom: isMobile ? "0.5rem" : "0",
               }} >
-                {/* ⭐ 각 Link의 기본 color를 currentPageTextColor로 설정 */}
                 <Link href="/company/about" style={{
+                  // ⭐ fontWeight를 사이드바와 동일하게 유지
                   fontWeight: 'bold',
                   color: currentPageTextColor,
                   textDecoration: "none",
                   transition: "color 0.2s",
-                  whiteSpace: "nowrap", // 텍스트 줄바꿈 방지
-                  padding: isMobile ? "3px 0" : "0", // 모바일에서 터치영역 넓히기
+                  whiteSpace: "nowrap",
+                  padding: isMobile ? "3px 0" : "0",
                 }} onMouseOver={(e) => (e.currentTarget.style.color = navLinkHoverColor)} onMouseOut={(e) => (e.currentTarget.style.color = currentPageTextColor)} >
                   {lang === 'kr' ? '회사소개' : 'Company'} </Link>
                 <Link href="/capabilities" style={{
@@ -378,8 +380,10 @@ export default function Header() {
                   color: currentPageTextColor,
                   textDecoration: "none",
                   transition: "color 0.2s",
-                  whiteSpace: "nowrap", // 텍스트 줄바꿈 방지
-                  padding: isMobile ? "3px 0" : "0", // 모바일에서 터치영역 넓히기
+                  whiteSpace: "nowrap",
+                  marginLeft: isMobile ? "0" : "0.63rem",
+
+                  padding: isMobile ? "3px 0" : "0",
                 }} onMouseOver={(e) => (e.currentTarget.style.color = navLinkHoverColor)} onMouseOut={(e) => (e.currentTarget.style.color = currentPageTextColor)} >
                   {lang === 'kr' ? '핵심역량' : 'Capabilities'} </Link>
                 <Link href="/quote" style={{
@@ -387,8 +391,9 @@ export default function Header() {
                   color: currentPageTextColor,
                   textDecoration: "none",
                   transition: "color 0.2s",
-                  whiteSpace: "nowrap", // 텍스트 줄바꿈 방지
-                  padding: isMobile ? "3px 0" : "0", // 모바일에서 터치영역 넓히기
+                  whiteSpace: "nowrap",
+                  marginLeft: isMobile ? "0" : "-0.6rem",
+                  padding: isMobile ? "3px 0" : "0",
                 }} onMouseOver={(e) => (e.currentTarget.style.color = navLinkHoverColor)} onMouseOut={(e) => (e.currentTarget.style.color = currentPageTextColor)} >
                   {lang === 'kr' ? '견적요청' : 'Request'} </Link>
               </nav>

@@ -19,7 +19,6 @@ const slides_en = [
   { id: 3, title: "Innovative Service", subtitle: "Enhance competitiveness with customized IT services.", image: "/main3.png" },
 ];
 
-// 카드 데이터를 capabilities 메뉴 항목으로 변경
 const cards = [
   { id: 1, title: "CNC Machining", icon: "/card1.png", href: "/capabilities/cnc" },
   { id: 2, title: "Injection Molding", icon: "/card2.png", href: "/capabilities/injection" },
@@ -33,34 +32,34 @@ const cards = [
 export default function Home() {
   const { lang } = useLang();
 
-
-  useEffect(() => {
-    const parentWidth = window.innerWidth;
-    const parentHeight = window.innerHeight;
-
-    // 2. 원하는 비율(vw/vh)을 기반으로 픽셀 값 계산
-    // 예: 너비는 부모 창의 48%, 높이는 60%
-    const popupWidth = Math.round(parentWidth * 0.25); // vw 대신 % 계산 후 반올림
-    const popupHeight = Math.round(parentHeight * 0.70); // vh 대신 % 계산 후 반올림
-
-    const left = 3250;
-    const top = 250;
-
-    const features = `width=${popupWidth},height=${popupHeight},left=${left},top=${top}, right=500,resizable=yes,scrollbars=no,status=no,location=no,menubar=no,toolbar=no`;
-    const popupWindow = window.open(
-      "/popup",
-      "채용공고",
-      features
-    )
-
-    if (!popupWindow || popupWindow.closed || typeof popupWindow.closed === "undefined") {
-      alert("팝업이 차단되었습니다. 팝업 차단을 해제해주세요.")
-    }
-
-    return () => {
-      popupWindow?.close();
-    }
-  }, []);
+  /* 팝업 열고싶으면 이거 해제하세요
+    useEffect(() => {
+      const parentWidth = window.innerWidth;
+      const parentHeight = window.innerHeight;
+  
+  
+      const popupWidth = Math.round(parentWidth * 0.25);
+      const popupHeight = Math.round(parentHeight * 0.70); 
+  
+      const left = 3250;
+      const top = 250;
+  
+      const features = `width=${popupWidth},height=${popupHeight},left=${left},top=${top}, right=500,resizable=yes,scrollbars=no,status=no,location=no,menubar=no,toolbar=no`;
+      const popupWindow = window.open(
+        "/popup",
+        "채용공고",
+        features
+      )
+  
+      if (!popupWindow || popupWindow.closed || typeof popupWindow.closed === "undefined") {
+        alert("팝업이 차단되었습니다. 팝업 차단을 해제해주세요.")
+      }
+  
+      return () => {
+        popupWindow?.close();
+      }
+    }, []);
+    */
   const currentSlides = lang === 'kr' ? slides_kr : slides_en;
   const currentCards = cards;
 

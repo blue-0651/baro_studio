@@ -15,13 +15,13 @@ export default function Footer() {
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 768);
     };
-    
+
     // 초기 실행
     checkMobile();
-    
+
     // 화면 크기 변경 시 이벤트 리스너
     window.addEventListener('resize', checkMobile);
-    
+
     // 컴포넌트 언마운트 시 이벤트 리스너 제거
     return () => {
       window.removeEventListener('resize', checkMobile);
@@ -41,7 +41,7 @@ export default function Footer() {
       <div
         style={{
           marginRight: "2%",
-          marginLeft : "2%",
+          marginLeft: "2%",
           padding: isMobile ? "0 1rem" : "0 2rem", // 모바일에서 패딩 줄임
           display: "flex",
           flexDirection: isMobile ? "column" : "row", // 모바일에서는 세로로 배치
@@ -126,13 +126,7 @@ export default function Footer() {
             </div>
           </Link>
 
-          <Link
-            href="https://blog.naver.com/baro_studio"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Naver Blog"
-            style={{ textDecoration: 'none' }}
-          >
+          <Link href="https://blog.naver.com/baro_studio" target="_blank" rel="noopener noreferrer" aria-label="Naver Blog" style={{ textDecoration: 'none' }}>
             <div
               style={{
                 width: "2.5rem",
@@ -142,33 +136,42 @@ export default function Footer() {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
+                overflow: 'hidden',
+                textAlign: 'center',
+                transition: 'opacity 0.2s'
               }}
+              onMouseEnter={(e) => e.currentTarget.style.opacity = '0.85'}
+              onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
             >
-              <span style={{ 
-                color: "white", 
-                fontWeight: "bold", 
-                fontSize: "1rem",
-                fontFamily: "sans-serif"
-              }}>N</span>
+
+              <span style={{
+                color: "white",
+                fontWeight: "900",
+                fontSize: "1.35rem",
+                fontFamily: "'Arial Black', Gadget, sans-serif",
+                lineHeight: '1',
+              }}>
+                N
+              </span>
             </div>
           </Link>
         </div>
 
         {/* 주소와 저작권 정보 섹션 - 정중앙 */}
-        <div style={{ 
-          position: isMobile ? "static" : "absolute", 
-          left: isMobile ? "auto" : "50%", 
-          top: isMobile ? "auto" : "50%", 
+        <div style={{
+          position: isMobile ? "static" : "absolute",
+          left: isMobile ? "auto" : "50%",
+          top: isMobile ? "auto" : "50%",
           transform: isMobile ? "none" : "translate(-50%, -50%)",
-          display: "flex", 
-          flexDirection: "column", 
+          display: "flex",
+          flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
           width: isMobile ? "100%" : "auto",
           zIndex: 1 // 낮은 z-index로 설정
         }}>
-          <div style={{ 
-            fontSize: isMobile ? "0.7rem" : "0.8rem", 
+          <div style={{
+            fontSize: isMobile ? "0.7rem" : "0.8rem",
             color: "#666666",
             textAlign: "center"
           }}>
@@ -178,8 +181,8 @@ export default function Footer() {
         </div>
 
         {/* 로고 섹션 - 오른쪽 */}
-        <div style={{ 
-          display: "flex", 
+        <div style={{
+          display: "flex",
           justifyContent: isMobile ? "center" : "flex-end",
           alignItems: "center",
           zIndex: 2 // 로고에 z-index 설정
@@ -191,10 +194,10 @@ export default function Footer() {
               textDecoration: "none",
             }}
           >
-            <div style={{ 
-              position: "relative", 
-              width: isMobile ? "100px" : "120px", 
-              height: isMobile ? "50px" : "60px" 
+            <div style={{
+              position: "relative",
+              width: isMobile ? "100px" : "120px",
+              height: isMobile ? "50px" : "60px"
             }}>
               <Image
                 src="/baro-logo_bk.png"

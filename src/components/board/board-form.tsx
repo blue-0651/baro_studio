@@ -11,8 +11,8 @@ import type { TiptapEditorRef } from "@/components/board/tiptap-editor"
 import { createClient, SupabaseClient } from '@supabase/supabase-js'
 import { useRouter } from "next/navigation"
 import { formatBytes } from "@/lib/utils";
+import { useSession } from "next-auth/react";
 
-/** supabase 환경변수 */
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 let supabase: SupabaseClient | null = null;
@@ -22,7 +22,6 @@ if (supabaseUrl && supabaseAnonKey) {
     console.error("Supabase URL or Anon Key is missing in environment variables.")
 }
 
-// 스토리지 버킷 이름
 const EDITOR_IMAGE_BUCKET_NAME = 'post-images';
 const ATTACHMENT_BUCKET_NAME = 'baro-studio';
 
@@ -77,11 +76,8 @@ export default function PostForm({ mode, initialData, boardId }: PostFormProps) 
     const [isNotice, setIsNotice] = useState(initialData?.isNotice ?? false);
     const editorRef = useRef<TiptapEditorRef>(null);
     const router = useRouter();
+    const { data: session } = useSession();
 
-    useEffect(() => {
-        if (mode === 'update' && initialData?.content && editorRef.current && !editorRef.current.getEditor()?.isFocused) {
-        }
-    }, [mode, initialData?.content]);
 
     const handleImageFileAdd = useCallback((file: File, dataUrl: string) => {
         setEditorImages(prevMap => new Map(prevMap).set(dataUrl, file));
@@ -95,7 +91,7 @@ export default function PostForm({ mode, initialData, boardId }: PostFormProps) 
                 !newFiles.some(nf => nf.name === newFile.name)
             );
             if (uniqueNewFiles.length !== addedFiles.length) {
-                alert("이미 추가되었거나 기존에 존재하는 파일명과 동일한 파일은 제외되었습니다.");
+                alert("Files with the same name as existing or newly added files have been excluded.");
             }
             setNewFiles(prevFiles => [...prevFiles, ...uniqueNewFiles]);
             e.target.value = '';
@@ -107,17 +103,17 @@ export default function PostForm({ mode, initialData, boardId }: PostFormProps) 
     }, []);
 
     const handleRemoveExistingFile = useCallback((fileToRemove: ExistingFileData) => {
-        if (window.confirm(`'${fileToRemove.filename}' 파일을 정말 삭제하시겠습니까?\n이 작업은 '수정' 버튼을 누르면 영구적으로 적용됩니다.`)) {
-            setExistingFiles(prevFiles => prevFiles.filter(file => file.id !== fileToRemove.id)); // UI에서 제거
-            setDeletedFileIds(prevIds => [...prevIds, fileToRemove.id]); // 삭제 목록에 ID 추가
+        if (window.confirm(`Are you sure you want to remove the file '${fileToRemove.filename}'?\nThis action will be permanent once you click '${mode === 'create' ? 'Create' : 'Update'}'.`)) {
+            setExistingFiles(prevFiles => prevFiles.filter(file => file.id !== fileToRemove.id));
+            setDeletedFileIds(prevIds => [...prevIds, fileToRemove.id]);
             console.log("Marked for deletion (will be processed on submit):", fileToRemove.id, fileToRemove.filename);
         }
-    }, []);
+    }, [mode]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!supabase) {
-            alert("Supabase 클라이언트가 초기화되지 않았습니다.");
+            alert("Supabase client is not initialized.");
             return;
         }
         if (isSubmitting) return;
@@ -130,12 +126,12 @@ export default function PostForm({ mode, initialData, boardId }: PostFormProps) 
 
         const isContentEmpty = !rawHtmlContent || rawHtmlContent.replace(/<[^>]*>/g, "").trim() === "" || rawHtmlContent === "<p></p>";
         if (!title.trim()) {
-            alert("제목을 입력해주세요.");
+            alert("Please enter a title.");
             setIsSubmitting(false);
             return;
         }
         if (isContentEmpty) {
-            alert("내용을 입력해주세요.");
+            alert("Please enter the content.");
             setIsSubmitting(false);
             return;
         }
@@ -146,7 +142,7 @@ export default function PostForm({ mode, initialData, boardId }: PostFormProps) 
             const fileExt = originalName.split('.').pop() || 'file';
             return `${Date.now()}-${Math.random().toString(36).substring(2, 10)}.${fileExt}`;
         };
-        // 수정된 파일 업로드 준비
+
         editorImages.forEach((file, dataUrl) => {
             if (rawHtmlContent.includes(dataUrl)) {
                 const imageFilePath = `public/posts/${generateUniqueFilename(file.name)}`;
@@ -171,7 +167,6 @@ export default function PostForm({ mode, initialData, boardId }: PostFormProps) 
             }
         });
 
-        //  새로 첨부된 파일 업로드 준비
         newFiles.forEach((file) => {
             const attachmentStoragePath = `public/attachments/${generateUniqueFilename(file.name)}`;
             attachmentUploadPromises.push(
@@ -202,7 +197,6 @@ export default function PostForm({ mode, initialData, boardId }: PostFormProps) 
         });
 
         try {
-            //  모든 새 파일 업로드 실행
             const allUploadPromises = [...imageUploadPromises, ...attachmentUploadPromises];
             let editorUploadResults: { dataUrl: string, publicUrl: string }[] = [];
             let newAttachmentUploadResults: AttachmentInputData[] = [];
@@ -214,10 +208,9 @@ export default function PostForm({ mode, initialData, boardId }: PostFormProps) 
                 const failedUploads = settledResults.filter(r => r.status === 'rejected') as PromiseRejectedResult[];
                 if (failedUploads.length > 0) {
                     console.error(`${failedUploads.length} uploads failed:`, failedUploads.map(f => f.reason));
-                    throw new Error(`${failedUploads.length}개의 파일 업로드에 실패했습니다.`);
+                    throw new Error(`${failedUploads.length} file upload(s) failed.`);
                 }
 
-                // 성공한 결과 분리
                 settledResults.forEach((result, index) => {
                     if (result.status === 'fulfilled') {
                         if (index < imageUploadPromises.length) {
@@ -232,28 +225,24 @@ export default function PostForm({ mode, initialData, boardId }: PostFormProps) 
                 console.log("No new files needed uploading.");
             }
 
-            // 에디터 내용의 data:URL을 실제 URL로 교체
             editorUploadResults.forEach(({ dataUrl, publicUrl }) => {
                 finalHtmlContent = finalHtmlContent.replaceAll(dataUrl, publicUrl);
             });
 
-            //  API 요청 데이터 준비
             const apiMethod = mode === 'create' ? 'POST' : 'PUT';
-            debugger;
             const apiUrl = mode === 'create' ? '/api/board' : `/api/board/${boardId}`;
 
             const postData = {
                 title: title.trim(),
                 content: finalHtmlContent,
                 isNotice: isNotice,
-                managerId: "baroAdmin",
+                managerId: "baroAdmin", // Assuming this is static or obtained elsewhere
                 newAttachments: newAttachmentUploadResults,
                 deletedFileIds: deletedFileIds,
             };
 
             console.log(`Sending ${apiMethod} request to ${apiUrl} with data:`, postData);
 
-            //  API 호출
             const response = await fetch(apiUrl, {
                 method: apiMethod,
                 headers: { 'Content-Type': 'application/json' },
@@ -269,10 +258,8 @@ export default function PostForm({ mode, initialData, boardId }: PostFormProps) 
             const result = await response.json();
             console.log("API response:", result);
 
-            // 성공 처리 
             if (result.success) {
-                alert(mode === 'create' ? "게시글과 첨부파일이 성공적으로 등록되었습니다!" : "게시글이 성공적으로 수정되었습니다!");
-                // 상태 초기화
+                alert(mode === 'create' ? "Post and attachments created successfully!" : "Post updated successfully!");
                 setTitle("");
                 setContent("<p></p>");
                 setNewFiles([]);
@@ -281,15 +268,14 @@ export default function PostForm({ mode, initialData, boardId }: PostFormProps) 
                 setEditorImages(new Map());
                 setIsNotice(false);
                 editorRef.current?.setContent("<p></p>");
-                // 페이지 이동
                 router.push(mode === 'create' ? '/company/board' : `/company/board/${boardId}`);
                 router.refresh();
             } else {
-                throw new Error(result.message || `${mode === 'create' ? '등록' : '수정'}에 실패했습니다.`);
+                throw new Error(result.message || `Failed to ${mode === 'create' ? 'create' : 'update'} post.`);
             }
 
         } catch (error) {
-            alert(`${mode === 'create' ? '등록' : '수정'} 중 오류 발생: ${error instanceof Error ? error.message : String(error)}`);
+            alert(`Error during ${mode === 'create' ? 'creation' : 'update'}: ${error instanceof Error ? error.message : String(error)}`);
             console.error("Submission error:", error);
         } finally {
             setIsSubmitting(false);
@@ -302,15 +288,15 @@ export default function PostForm({ mode, initialData, boardId }: PostFormProps) 
             <form onSubmit={handleSubmit} className="space-y-8">
                 <div>
                     <h1 className="text-3xl font-bold mb-6 text-gray-800 border-b pb-3">
-                        {mode === 'create' ? '새 글 작성' : '글 수정'}
+                        {mode === 'create' ? 'Create New Post' : 'Edit Post'}
                     </h1>
                 </div>
 
                 <div className="space-y-2">
-                    <Label htmlFor="title" className="text-base font-semibold text-gray-700">제목</Label>
+                    <Label htmlFor="title" className="text-base font-semibold text-gray-700">Title</Label>
                     <Input
                         id="title" value={title} onChange={(e) => setTitle(e.target.value)}
-                        placeholder="제목을 입력하세요"
+                        placeholder="Enter the title"
                         className="w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md text-sm h-11 px-4" required
                     />
                 </div>
@@ -321,28 +307,28 @@ export default function PostForm({ mode, initialData, boardId }: PostFormProps) 
                         className="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
                     />
                     <Label htmlFor="isNotice" className="text-sm font-medium text-gray-700 cursor-pointer">
-                        공지사항으로 등록
+                        Register as Notice
                     </Label>
                 </div>
 
                 <div className="space-y-2">
-                    <Label htmlFor="content-editor" className="text-base font-semibold text-gray-700">내용</Label>
+                    <Label htmlFor="content-editor" className="text-base font-semibold text-gray-700">Content</Label>
                     <TiptapEditor
                         initialValue={content}
                         onChange={setContent}
                         ref={editorRef}
-                        placeholder="내용을 입력하세요..."
+                        placeholder="Enter the content..."
                         minHeight="300px"
                         onImageFileAdd={handleImageFileAdd}
                     />
                 </div>
 
                 <div className="space-y-3">
-                    <Label className="text-base font-semibold text-gray-700">첨부파일</Label>
+                    <Label className="text-base font-semibold text-gray-700">Attachments</Label>
 
                     {mode === 'update' && existingFiles.length > 0 && (
                         <div className="mb-4 p-3 bg-gray-50 border border-dashed border-gray-300 rounded-md">
-                            <p className="text-sm font-medium text-gray-600 mb-2">기존 첨부파일:</p>
+                            <p className="text-sm font-medium text-gray-600 mb-2">Existing Attachments:</p>
                             <ul className="list-none space-y-2">
                                 {existingFiles.map((file) => (
                                     <li key={file.id} className="flex items-center justify-between text-sm text-gray-700 hover:bg-gray-100 p-1.5 rounded-md transition duration-150 ease-in-out">
@@ -358,7 +344,7 @@ export default function PostForm({ mode, initialData, boardId }: PostFormProps) 
                                             className="h-6 w-6 text-red-500 hover:bg-red-100 rounded-full flex-shrink-0 ml-2"
                                             onClick={() => handleRemoveExistingFile(file)}
                                             disabled={isSubmitting}
-                                            title="파일 삭제"
+                                            title="Delete File"
                                         >
                                             <Trash2 className="h-4 w-4" />
                                         </Button>
@@ -375,11 +361,11 @@ export default function PostForm({ mode, initialData, boardId }: PostFormProps) 
                             onClick={() => document.getElementById("file-upload-input")?.click()}
                             disabled={isSubmitting}
                         >
-                            <Paperclip className="w-4 h-4" /> 파일 추가
+                            <Paperclip className="w-4 h-4" /> Add File(s)
                         </Button>
                         <Input id="file-upload-input" type="file" multiple onChange={handleFileChange} className="hidden" />
                         <span className="text-sm text-gray-600">
-                            {newFiles.length > 0 ? `${newFiles.length}개 파일 새로 추가 (${formatBytes(newFiles.reduce((acc, file) => acc + file.size, 0))})` : "파일당 최대 10MB"}
+                            {newFiles.length > 0 ? `${newFiles.length} new file(s) added (${formatBytes(newFiles.reduce((acc, file) => acc + file.size, 0))})` : "You can attach relevant documents."}
                         </span>
                     </div>
 
@@ -397,7 +383,7 @@ export default function PostForm({ mode, initialData, boardId }: PostFormProps) 
                                         className="h-6 w-6 text-red-500 hover:bg-red-100 rounded-full flex-shrink-0 ml-2"
                                         onClick={() => handleRemoveNewFile(index)}
                                         disabled={isSubmitting}
-                                        title="추가한 파일 취소"
+                                        title="Cancel adding file"
                                     >
                                         <X className="h-4 w-4" />
                                     </Button>
@@ -414,7 +400,7 @@ export default function PostForm({ mode, initialData, boardId }: PostFormProps) 
                         onClick={() => router.back()}
                         disabled={isSubmitting}
                     >
-                        취소
+                        Cancel
                     </Button>
                     <Button
                         type="submit"
@@ -422,7 +408,7 @@ export default function PostForm({ mode, initialData, boardId }: PostFormProps) 
                         disabled={isSubmitting}
                     >
                         {isSubmitting && <Loader2 className="w-4 h-4 animate-spin" />}
-                        {isSubmitting ? (mode === 'create' ? "등록 중..." : "수정 중...") : (mode === 'create' ? "등록" : "수정")}
+                        {isSubmitting ? (mode === 'create' ? "Creating..." : "Updating...") : (mode === 'create' ? "Create" : "Update")}
                     </Button>
                 </div>
             </form>

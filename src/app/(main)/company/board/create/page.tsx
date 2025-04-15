@@ -18,9 +18,15 @@ export default function CreatePostPage() {
 
     const { lang } = useLang() as { lang: Language };
 
-    const translations: HomeTranslations = {
-        pageTitle: { kr: '공지사항', en: 'Notices' },
-        pageSubtitle: { kr: '중요한 소식과 업데이트를 확인하세요.', en: 'Check here for important news and updates.' },
+    const translationsCreate: HomeTranslations = {
+        pageTitle: {
+            kr: '새 공지사항 작성',
+            en: 'Create New Notice'
+        },
+        pageSubtitle: {
+            kr: '새로운 소식이나 업데이트를 등록하여 사용자에게 알리세요.',
+            en: 'Create a new notice to share important news and updates.'
+        },
     };
     return (
         <div>
@@ -30,10 +36,10 @@ export default function CreatePostPage() {
                         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-20 pb-16 text-center lg:pt-32">
                             <h1 className="text-3xl tracking-tight font-bold text-gray-900 sm:text-4xl mt-12 md:text-5xl">
                                 <span className="block" style={{ color: "#333333" }}>
-                                    {translations.pageTitle[lang]}
+                                    {translationsCreate.pageTitle[lang]}
                                 </span>
                                 <span className="block text-custom text-lg sm:text-xl md:text-2xl mt-2">
-                                    {translations.pageSubtitle[lang]}
+                                    {translationsCreate.pageSubtitle[lang]}
                                 </span>
                             </h1>
 

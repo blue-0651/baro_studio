@@ -1,6 +1,6 @@
 'use client';
 import { useLang } from "@/context/LangContext";
-import BoardDetail from "@/components/board/boardDetail";
+import RecruitmentDetailPage from "@/components/recruit/recruitmentDetail";
 type Language = 'kr' | 'en';
 
 type TranslationEntry = {
@@ -16,14 +16,14 @@ type HomeTranslations = {
 export default function BoardDetailPage() {
     const { lang } = useLang() as { lang: Language };
 
-    const translationsDetail_Alt1 = {
+    const translationsDetail = {
         pageTitle: {
-            kr: '공지 확인',
-            en: 'View Notice'
+            kr: '채용공고 상세',
+            en: 'Recruitment Details'
         },
         pageSubtitle: {
-            kr: '아래에서 전체 내용을 확인하세요.',
-            en: 'Please see the full content below.'
+            kr: '채용 자격 요건 및 상세 정보를 확인하세요.',
+            en: 'Review the position requirements and details below.'
         },
     };
     return (
@@ -34,10 +34,10 @@ export default function BoardDetailPage() {
                         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-20 pb-16 text-center lg:pt-32">
                             <h1 className="text-3xl tracking-tight font-bold text-gray-900 sm:text-4xl mt-12 md:text-5xl">
                                 <span className="block" style={{ color: "#333333" }}>
-                                    {translationsDetail_Alt1.pageTitle[lang]}
+                                    {translationsDetail.pageTitle[lang]}
                                 </span>
                                 <span className="block text-custom text-lg sm:text-xl md:text-2xl mt-2">
-                                    {translationsDetail_Alt1.pageSubtitle[lang]}
+                                    {translationsDetail.pageSubtitle[lang]}
                                 </span>
                             </h1>
 
@@ -45,7 +45,7 @@ export default function BoardDetailPage() {
                     </div>
                 </div>
             </section>
-            <BoardDetail />
+            <RecruitmentDetailPage />
         </>
     )
 }

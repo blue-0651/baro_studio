@@ -41,10 +41,13 @@ model File {
   sizeBytes   Int?   
   uploadedAt  DateTime @default(now()) @map("uploaded_at") 
 
-  postId Int  @map("post_id") 
-  post   Post @relation(fields: [postId], references: [boardId], onDelete: Cascade)
+  postId Int?  @map("post_id") 
+  post   Post? @relation(fields: [postId], references: [boardId], onDelete: Cascade)
 
+  jobId Int?  @map("job_id")
+  job   Job?  @relation(fields: [jobId], references: [id], onDelete: Cascade)
   @@index([postId])
+  @@index([jobId])
   @@map("board_files")
 }
 
@@ -59,5 +62,6 @@ model Job {
   createdAt       DateTime @default(now()) @map("created_at") 
   content         String?
 
+  files           File[]
   @@map("jobs")
 }

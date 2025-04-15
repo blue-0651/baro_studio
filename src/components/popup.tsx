@@ -114,7 +114,7 @@ export default function JobPostingsPopup() {
                         textShadow: '1px 1px 2px rgba(0,0,0,0.8)',
                         marginLeft: '0.5rem',
                     }}>
-                    오늘 더이상 보지않기
+                    Don't show this again today
                 </span>
             </div>
         </div>

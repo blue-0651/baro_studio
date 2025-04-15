@@ -10,7 +10,8 @@ import DOMPurify from 'dompurify';
 import { useState, useMemo } from 'react';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { formatBytes } from "@/lib/utils";
-
+import { Session } from "next-auth";
+import { useSession } from "next-auth/react";
 interface FileData {
     id: number;
     filename: string;
@@ -48,6 +49,7 @@ const ATTACHMENT_BUCKET_NAME = 'baro-studio';
 
 
 export default function BoardDetailPage() {
+    const { data: session } = useSession();
     const router = useRouter()
     const params = useParams()
     const boardId = params?.id as string
@@ -73,37 +75,39 @@ export default function BoardDetailPage() {
         if (typeof window !== 'undefined' && post?.content) {
             return DOMPurify.sanitize(post.content);
         }
-        return post?.content || "내용 없음";
+        return post?.content || "No content";
     }, [post?.content]);
 
     if (isLoading) {
         return (
             <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh", width: "100%" }}>
-                로딩 중...
+                loading...
             </div>
         )
     }
     if (error) {
         return (
             <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh", width: "100%", color: "red" }}>
-                에러: {error.message}
+                error: {error.message}
             </div>
         )
     }
     if (!post) {
         return (
             <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh", width: "100%" }}>
-                게시글을 찾을 수 없습니다.
+                No posts found.
+
             </div>
         )
     }
 
+    debugger;
     // 파일 다운로드
     const handleDownload = async (e: React.MouseEvent<HTMLAnchorElement>, file: FileData) => {
         e.preventDefault();
 
         if (!supabase) {
-            alert("다운로드 서비스를 초기화할 수 없습니다.");
+            alert("Unable to initialize the download service.");
             return;
         }
         // 이미 해당 파일 다운로드 중이면 무시
@@ -132,11 +136,11 @@ export default function BoardDetailPage() {
                 document.body.removeChild(link);
                 window.URL.revokeObjectURL(url);
             } else {
-                throw new Error("다운로드된 데이터가 없습니다.");
+                throw new Error("No data downloaded.");
             }
 
         } catch (err) {
-            alert(err instanceof Error ? err.message : "파일 다운로드 중 알 수 없는 오류가 발생했습니다.");
+            alert(err instanceof Error ? err.message : "An unknown error occurred while downloading the file.");
             console.error("File download failed:", err);
         } finally {
             setDownloadingFileId(null);
@@ -148,7 +152,7 @@ export default function BoardDetailPage() {
         // 데이터 없거나 이미 삭제 중이면 무시
         if (!post || isDeleting) return;
 
-        if (window.confirm(`'${post.title}' 게시글을 정말 삭제하시겠습니까?\n첨부된 모든 파일도 함께 삭제됩니다. 이 작업은 되돌릴 수 없습니다.`)) {
+        if (window.confirm(`'${post.title}' Are you sure you want to delete this post?\nAll attached files will be deleted as well. This action cannot be undone.`)) {
             setIsDeleting(true);
             try {
                 const response = await fetch(`/api/board/${boardId}`, {
@@ -156,7 +160,7 @@ export default function BoardDetailPage() {
                 });
 
                 if (!response.ok) {
-                    let errorMsg = `삭제 실패: ${response.status}`;
+                    let errorMsg = `Deletion failed: ${response.status}`;
                     try {
                         const errorData = await response.json();
                         errorMsg = errorData.message || errorMsg;
@@ -167,17 +171,17 @@ export default function BoardDetailPage() {
                 const result = await response.json();
 
                 if (result.success) {
-                    alert("게시글이 성공적으로 삭제되었습니다.");
+                    alert("The post has been successfully deleted.");
                     await queryClient.invalidateQueries({ queryKey: ['posts'] });
                     // 목록 페이지로 이동
                     router.push("/company/board");
-                    router.refresh(); // 페이지 새로고침 (캐시 업데이트 )
+                    router.refresh();
                 } else {
-                    throw new Error(result.message || "게시글 삭제에 실패했습니다.");
+                    throw new Error(result.message || "Failed to delete post.");
                 }
 
             } catch (err) {
-                alert(`삭제 중 오류 발생: ${err instanceof Error ? err.message : String(err)}`);
+                alert(`Error occurred while deleting: ${err instanceof Error ? err.message : String(err)}`);
             } finally {
                 setIsDeleting(false);
             }
@@ -187,7 +191,7 @@ export default function BoardDetailPage() {
 
 
     const formattedDate = post.createdAt ? format(new Date(post.createdAt), "yyyy-MM-dd HH:mm") : "";
-    const authorName = (post.manager?.id ? '관리자' : '익명');
+    const authorName = (post.manager?.id ? 'admin' : 'anonymous');
 
     return (
         <div className="max-w-7xl mx-auto" style={{ margin: "0 auto", padding: "20px", fontFamily: "sans-serif", backgroundColor: "white", borderRadius: "8px", boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)" }}>
@@ -199,27 +203,31 @@ export default function BoardDetailPage() {
             <div style={{ display: "flex", alignItems: 'center', fontSize: "14px", color: "#666", marginBottom: "24px" }}>
                 <span style={{ marginRight: "12px" }}>{authorName}</span>
                 <span>{formattedDate}</span>
-                <div style={{ marginLeft: "auto", display: 'flex', gap: '8px' }}>
-                    <Button
-                        variant="primaryBlue"
-                        size="sm"
-                        onClick={() => router.push(`/company/board/update/${post.boardId}`)}
-                        disabled={isDeleting}
-                    >
-                        수정하기
-                    </Button>
-                    <Button
-                        variant="destructive"
-                        size="sm"
-                        onClick={handleDeletePost}
-                        disabled={isDeleting}
-                        className="flex items-center gap-1"
-                    >
-                        {isDeleting && <Loader2 className="h-4 w-4 animate-spin" />}
-                        {isDeleting ? '삭제 중...' : '삭제하기'}
-                    </Button>
-                </div>
+                {session && (
+                    <div style={{ marginLeft: "auto", display: 'flex', gap: '8px' }}>
+                        <Button
+                            variant="primaryBlue"
+                            size="sm"
+                            onClick={() => router.push(`/company/board/update/${post.boardId}`)}
+                            disabled={isDeleting}
+                        >
+                            eidt
+                        </Button>
+                        <Button
+                            variant="destructive"
+                            size="sm"
+                            onClick={handleDeletePost}
+                            disabled={isDeleting}
+                            className="flex items-center gap-1"
+                        >
+                            {isDeleting && <Loader2 className="h-4 w-4 animate-spin" />}
+                            {isDeleting ? 'deleting...' : 'delete'}
+                        </Button>
+                    </div>
+                )
+                }
             </div>
+
             <div
                 className="prose h-auto max-w-none"
                 style={{
@@ -238,7 +246,7 @@ export default function BoardDetailPage() {
             {post.files && post.files.length > 0 && (
                 <div style={{ borderTop: "1px solid #eee", paddingTop: "16px", marginBottom: "24px" }}>
                     <h3 style={{ fontSize: "16px", fontWeight: "bold", marginBottom: "12px" }}>
-                        첨부파일
+                        attachment
                     </h3>
                     <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
                         {post.files.map((file) => (
@@ -249,7 +257,7 @@ export default function BoardDetailPage() {
                                     href={file.url}
                                     onClick={(e) => handleDownload(e, file)}
                                     style={{ display: 'flex', alignItems: 'center', color: "#0066cc", textDecoration: "none", fontSize: "14px", marginRight: '10px', cursor: 'pointer' }}
-                                    title={`"${file.filename}" 다운로드`}
+                                    title={`"${file.filename}" download`}
                                 >
                                     {downloadingFileId === file.id ? (
                                         <Download className="animate-pulse" style={{ width: "16px", height: "16px", marginRight: "8px", flexShrink: 0 }} />
@@ -270,7 +278,7 @@ export default function BoardDetailPage() {
 
             <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "24px" }}>
                 <button onClick={() => router.push("/company/board")} style={{ backgroundColor: "#222", color: "white", border: "none", borderRadius: "4px", padding: "8px 16px", fontSize: "14px", cursor: "pointer" }}>
-                    목록으로
+                    View List
                 </button>
             </div>
         </div>
