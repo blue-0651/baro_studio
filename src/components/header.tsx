@@ -31,7 +31,7 @@ export default function Header() {
   const sidebarTextColor = "#333333";
 
   // 로고 이미지 결정 - 메인 페이지가 아닌 경우 검은색 로고 사용
-  const logoImage = pathname === '/' ? '/w_logo.png' : '/baro-logo_bk.png';
+  const logoImage = pathname === '/' ? '/w_logo.png' : '/logo.png';
 
   // 모바일 화면 여부 확인을 위한 상태 추가
   const [isMobile, setIsMobile] = useState(false);
