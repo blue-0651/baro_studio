@@ -15,8 +15,8 @@ import type { Metadata, Viewport } from "next";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Website",
-  description: "Website description",
+  title: "baro studio",
+  description: "",
 };
 
 

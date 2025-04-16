@@ -395,6 +395,14 @@ export default function PostForm({ mode, initialData, boardId }: PostFormProps) 
 
                 <div className="flex justify-end gap-4 pt-6 border-t border-gray-200 mt-10">
                     <Button
+                        type="submit"
+                        className="px-8 py-2.5 text-sm font-semibold bg-[#F68E1E] rounded-md hover:bg-[#E57D0D] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#A6D6E7] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 disabled:opacity-50"
+                        disabled={isSubmitting}
+                    >
+                        {isSubmitting && <Loader2 className="w-4 h-4 animate-spin" />}
+                        {isSubmitting ? (mode === 'create' ? "Creating..." : "Updating...") : (mode === 'create' ? "Create" : "Update")}
+                    </Button>
+                    <Button
                         variant="outline" type="button"
                         className="px-6 py-2.5 text-sm font-semibold border-gray-300 text-gray-700 hover:bg-gray-100 rounded-md transition duration-150 ease-in-out"
                         onClick={() => router.back()}
@@ -402,14 +410,7 @@ export default function PostForm({ mode, initialData, boardId }: PostFormProps) 
                     >
                         Cancel
                     </Button>
-                    <Button
-                        type="submit"
-                        className="px-8 py-2.5 text-sm font-semibold bg-indigo-600 text-white hover:bg-indigo-700 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 rounded-md transition duration-150 ease-in-out flex items-center gap-2 disabled:opacity-50"
-                        disabled={isSubmitting}
-                    >
-                        {isSubmitting && <Loader2 className="w-4 h-4 animate-spin" />}
-                        {isSubmitting ? (mode === 'create' ? "Creating..." : "Updating...") : (mode === 'create' ? "Create" : "Update")}
-                    </Button>
+
                 </div>
             </form>
         </div>

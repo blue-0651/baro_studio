@@ -2,7 +2,7 @@
 
 import { useRouter, useParams } from "next/navigation"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
-import { ArrowLeft, FileText, Download, Trash2, Loader2 } from "lucide-react"
+import { ArrowLeft, FileText, Download, Trash2, Loader2, Edit } from "lucide-react"
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns"
 import { getQueryDetail } from "@/app/api/query/api.js";
@@ -12,6 +12,7 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { formatBytes } from "@/lib/utils";
 import { Session } from "next-auth";
 import { useSession } from "next-auth/react";
+
 interface FileData {
     id: number;
     filename: string;
@@ -210,18 +211,30 @@ export default function BoardDetailPage() {
                             size="sm"
                             onClick={() => router.push(`/company/board/update/${post.boardId}`)}
                             disabled={isDeleting}
+                            className="flex items-center gap-1.5"
+                            style={{ width: "auto" }}
                         >
-                            Edit
+                            <Edit className="h-4 w-4" />
+                            <span>Edit</span>
                         </Button>
                         <Button
                             variant="destructive"
                             size="sm"
                             onClick={handleDeletePost}
                             disabled={isDeleting}
-                            className="flex items-center gap-1"
+                            className="flex items-center gap-1.5"
                         >
-                            {isDeleting && <Loader2 className="h-4 w-4 animate-spin" />}
-                            {isDeleting ? 'deleting...' : 'Delete'}
+                            {isDeleting ? (
+                                <>
+                                    <Loader2 className="h-4 w-4 animate-spin" />
+                                    <span>Deleting...</span>
+                                </>
+                            ) : (
+                                <>
+                                    <Trash2 className="h-4 w-4" />
+                                    <span>Delete</span>
+                                </>
+                            )}
                         </Button>
                     </div>
                 )
@@ -277,9 +290,24 @@ export default function BoardDetailPage() {
             )}
 
             <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "24px" }}>
-                <button onClick={() => router.push("/company/board")} style={{ backgroundColor: "#222", color: "white", border: "none", borderRadius: "4px", padding: "8px 16px", fontSize: "14px", cursor: "pointer" }}>
+                <button
+                    onClick={() => router.push("/company/board")}
+                    style={{
+                        backgroundColor: "#F68E1E",
+                        color: "white",
+                        border: "none",
+                        borderRadius: "4px",
+                        padding: "8px 16px",
+                        fontSize: "14px",
+                        cursor: "pointer",
+                        transition: "background-color 0.3s ease"
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = "#E57D0D"}
+                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = "#F68E1E"}
+                >
                     View List
                 </button>
+
             </div>
         </div>
     );

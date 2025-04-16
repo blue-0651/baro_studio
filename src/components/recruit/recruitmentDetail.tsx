@@ -189,7 +189,7 @@ export default function RecruitmentDetailPage() {
                     session && (
                         <div style={{ display: 'flex', gap: '10px' }}>
                             <Button
-                                variant="outline"
+                                variant="primaryBlue"
                                 size="sm"
                                 onClick={() => router.push(`/company/recruitment/update/${job.id}`)}
                                 disabled={deleteMutation.isPending}
@@ -305,10 +305,25 @@ export default function RecruitmentDetailPage() {
 
 
             <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "24px" }}>
-                <button onClick={() => router.push("/company/recruitment")} style={{ backgroundColor: "#222", color: "white", border: "none", borderRadius: "4px", padding: "8px 16px", fontSize: "14px", cursor: "pointer" }}>
+                <button
+                    onClick={() => router.push("/company/recruitment")}
+                    style={{
+                        backgroundColor: "#F68E1E",
+                        color: "white",
+                        border: "none",
+                        borderRadius: "4px",
+                        padding: "8px 16px",
+                        fontSize: "14px",
+                        cursor: "pointer",
+                        transition: "background-color 0.3s ease"
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = "#E57D0D"}
+                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = "#F68E1E"}
+                >
                     View List
                 </button>
             </div>
+
         </div>
     );
 }

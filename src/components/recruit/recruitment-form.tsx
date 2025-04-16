@@ -519,6 +519,14 @@ export default function JobForm({ mode, initialData, jobId }: JobFormProps) {
 
                 <div className="flex justify-end gap-4 pt-6 border-t border-gray-200 mt-10">
                     <Button
+                        type="submit"
+                        className="px-8 py-2 bg-[#F68E1E] rounded-md hover:bg-[#E57D0D] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#A6D6E7] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                        disabled={isSubmitting}
+                    >
+                        {isSubmitting && <Loader2 className="w-4 h-4 animate-spin" />}
+                        {isSubmitting ? (mode === 'create' ? "Creating..." : "Updating...") : (mode === 'create' ? "Create Posting" : "Update Posting")}
+                    </Button>
+                    <Button
                         variant="outline" type="button"
                         className="px-6 py-2"
                         onClick={() => router.back()}
@@ -526,14 +534,7 @@ export default function JobForm({ mode, initialData, jobId }: JobFormProps) {
                     >
                         Cancel
                     </Button>
-                    <Button
-                        type="submit"
-                        className="px-8 py-2 flex items-center gap-2"
-                        disabled={isSubmitting}
-                    >
-                        {isSubmitting && <Loader2 className="w-4 h-4 animate-spin" />}
-                        {isSubmitting ? (mode === 'create' ? "Creating..." : "Updating...") : (mode === 'create' ? "Create Posting" : "Update Posting")}
-                    </Button>
+
                 </div>
             </form>
         </div>
