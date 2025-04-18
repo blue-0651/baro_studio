@@ -30,7 +30,7 @@ export default function RequestButton() {
       <div
         style={{
           position: "fixed",
-          top: isMobile ? "50%" : "50%", // 화면 중앙으로 위치 변경
+          top: isMobile ? "30%" : "30%", // 화면 상단 30% 지점으로 위치 변경
           right: isMobile ? "20px" : "30px",
           transform: "translateY(-50%)", // 세로 중앙 정렬을 위한 조정
           zIndex: 99,
