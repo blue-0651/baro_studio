@@ -92,14 +92,21 @@ export default function Footer() {
               style={{
                 width: "2.5rem",
                 height: "2.5rem",
-                backgroundColor: "#FF0000",
                 borderRadius: "9999px",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
               }}
             >
-              <Youtube style={{ width: "1.25rem", height: "1.25rem", color: "white" }} />
+              <div style={{ position: "relative", width: "2.5rem", height: "2.5rem" }}>
+                <Image
+                  src="/image_youtube.png"
+                  alt="YouTube"
+                  fill
+                  style={{ objectFit: "contain" }}
+                  priority
+                />
+              </div>
             </div>
           </Link>
 
@@ -115,44 +122,50 @@ export default function Footer() {
               style={{
                 width: "2.5rem",
                 height: "2.5rem",
-                backgroundColor: "#0077B5",
                 borderRadius: "9999px",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
               }}
             >
-              <Linkedin style={{ width: "1.25rem", height: "1.25rem", color: "white" }} />
+              <div style={{ position: "relative", width: "2.5rem", height: "2.5rem" }}>
+                <Image
+                  src="/image_linkedin.png"
+                  alt="LinkedIn"
+                  fill
+                  style={{ objectFit: "contain" }}
+                  priority
+                />
+              </div>
             </div>
           </Link>
 
-          <Link href="https://blog.naver.com/baro_studio" target="_blank" rel="noopener noreferrer" aria-label="Naver Blog" style={{ textDecoration: 'none' }}>
+          <Link 
+            href="https://blog.naver.com/baro_studio" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            aria-label="Naver Blog" 
+            style={{ textDecoration: 'none' }}
+          >
             <div
               style={{
                 width: "2.5rem",
                 height: "2.5rem",
-                backgroundColor: "#03C75A",
                 borderRadius: "9999px",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                overflow: 'hidden',
-                textAlign: 'center',
-                transition: 'opacity 0.2s'
               }}
-              onMouseEnter={(e) => e.currentTarget.style.opacity = '0.85'}
-              onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
             >
-
-              <span style={{
-                color: "white",
-                fontWeight: "900",
-                fontSize: "1.35rem",
-                fontFamily: "'Arial Black', Gadget, sans-serif",
-                lineHeight: '1',
-              }}>
-                N
-              </span>
+              <div style={{ position: "relative", width: "2.5rem", height: "2.5rem" }}>
+                <Image
+                  src="/image_naver.png"
+                  alt="Naver Blog"
+                  fill
+                  style={{ objectFit: "contain" }}
+                  priority
+                />
+              </div>
             </div>
           </Link>
         </div>
