@@ -1,6 +1,6 @@
 {
   "functions": {
-    "api/quote/route.ts": {
+    "app/api/quote/route.ts": {
       "maxDuration": 30
     }
   }
