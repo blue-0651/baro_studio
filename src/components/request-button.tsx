@@ -34,8 +34,8 @@ export default function RequestButton() {
           right: isMobile ? "20px" : "30px",
           transform: "translateY(-50%)",
           zIndex: 99,
-          width: isMobile ? "80px" : "120px",
-          height: isMobile ? "80px" : "120px",
+          width: isMobile ? "100px" : "140px",
+          height: isMobile ? "100px" : "140px",
           cursor: "pointer",
           display: "flex",
           alignItems: "center",
@@ -55,7 +55,7 @@ export default function RequestButton() {
             src="/request.png"
             alt="Request Quote"
             fill
-            sizes="(max-width: 768px) 80px, 120px"
+            sizes="(max-width: 768px) 100px, 140px"
             style={{ objectFit: "contain" }}
             priority
           />
