@@ -111,9 +111,10 @@ export default function Sidebar({
                         {/* Category Title */}
                         <div style={{
                             padding: isMobile ? '12px 12px' : '15px 15px',
-                            fontSize: isMobile ? '16px' : '18px',
+                            fontSize: isMobile ? '18px' : '20px',
                             color: sidebarTextColor,
-                            fontWeight: 'bold',
+                            fontWeight: '700',
+                            letterSpacing: '-0.01em',
                             borderBottom: `1px solid rgba(51, 51, 51, 0.25)`
                         }}>
                             {menu.title}
@@ -140,19 +141,21 @@ export default function Sidebar({
                                                 style={{
                                                     color: sidebarTextColor,
                                                     textDecoration: 'none',
-                                                    fontSize: isMobile ? '14px' : '15px',
+                                                    fontSize: isMobile ? '15px' : '16px',
                                                     flexGrow: 1,
-                                                    fontWeight: 'normal',
+                                                    fontWeight: '500',
+                                                    letterSpacing: '-0.01em',
                                                 }}
                                                 onClick={handleLinkClick}
                                             >
                                                 {item.name}
                                                 {key === 'capabilities' && item.description && (
                                                     <div style={{
-                                                        fontSize: isMobile ? '12px' : '13px',
+                                                        fontSize: isMobile ? '13px' : '14px',
                                                         color: sidebarTextColor,
                                                         marginTop: '5px',
-                                                        fontWeight: 'normal'
+                                                        fontWeight: '400',
+                                                        opacity: 0.85
                                                     }}>
                                                         {item.description}
                                                     </div>
@@ -160,19 +163,21 @@ export default function Sidebar({
                                             </Link>
                                         ) : (
                                             <span style={{
-                                                fontSize: isMobile ? '14px' : '15px',
+                                                fontSize: isMobile ? '15px' : '16px',
                                                 flexGrow: 1,
                                                 color: sidebarTextColor,
-                                                fontWeight: openSubMenus[item.href] ? 'bold' : 'normal',
+                                                fontWeight: openSubMenus[item.href] ? '600' : '500',
+                                                letterSpacing: '-0.01em',
                                                 transition: 'font-weight 0.2s'
                                             }}>
                                                 {item.name}
                                                 {key === 'capabilities' && item.description && (
                                                     <div style={{
-                                                        fontSize: isMobile ? '12px' : '13px',
+                                                        fontSize: isMobile ? '13px' : '14px',
                                                         color: sidebarTextColor,
                                                         marginTop: '5px',
-                                                        fontWeight: 'normal'
+                                                        fontWeight: '400',
+                                                        opacity: 0.85
                                                     }}>
                                                         {item.description}
                                                     </div>
@@ -180,14 +185,12 @@ export default function Sidebar({
                                             </span>
                                         )}
 
-
                                         {item.children && (
                                             openSubMenus[item.href]
                                                 ? <ChevronUp size={isMobile ? 16 : 18} color={sidebarTextColor} />
                                                 : <ChevronDown size={isMobile ? 16 : 18} color={sidebarTextColor} />
                                         )}
                                     </div>
-
 
                                     {item.children && openSubMenus[item.href] && (
                                         <div style={{ paddingLeft: isMobile ? '30px' : '45px', paddingTop: '5px' }}>
@@ -199,7 +202,9 @@ export default function Sidebar({
                                                             display: 'block',
                                                             color: sidebarTextColor,
                                                             textDecoration: 'none',
-                                                            fontSize: isMobile ? '13px' : '14px',
+                                                            fontSize: isMobile ? '14px' : '15px',
+                                                            fontWeight: '400',
+                                                            letterSpacing: '-0.01em',
                                                         }}
                                                         onClick={handleLinkClick}
                                                     >

@@ -278,37 +278,41 @@ export default function Header() {
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: menuOpen ? 'center' : 'space-between',
-                  alignItems: 'flex-start',
+                  alignItems: menuOpen ? 'center' : 'flex-start',
                   padding: 0,
                   width: isMobile ? "18px" : "24px",
                   height: isMobile ? "16px" : "20px",
                   transition: "transform 0.2s ease",
-                  zIndex: 102 // 사이드바보다 높은 z-index로 항상 위에 표시
+                  zIndex: 102,
+                  ...(menuOpen && {
+                    width: "29px",
+                    height: "29px",
+                    border: `1px solid ${currentPageTextColor}`,
+                    padding: "6px",
+                  })
                 }}
-                onClick={() => setMenuOpen(!menuOpen)} // 토글 기능
+                onClick={() => setMenuOpen(!menuOpen)}
                 onMouseOver={(e) => {
                   if (!menuOpen) {
-                    // 햄버거 아이콘인 경우
                     const lines = e.currentTarget.querySelectorAll('div');
                     lines.forEach(line => {
                       line.style.backgroundColor = navLinkHoverColor;
                     });
                   } else {
-                    // X 아이콘인 경우
                     e.currentTarget.style.color = navLinkHoverColor;
+                    e.currentTarget.style.borderColor = navLinkHoverColor;
                   }
                   e.currentTarget.style.transform = "scale(1.05)";
                 }}
                 onMouseOut={(e) => {
                   if (!menuOpen) {
-                    // 햄버거 아이콘인 경우
                     const lines = e.currentTarget.querySelectorAll('div');
                     lines.forEach(line => {
                       line.style.backgroundColor = currentPageTextColor;
                     });
                   } else {
-                    // X 아이콘인 경우
                     e.currentTarget.style.color = currentPageTextColor;
+                    e.currentTarget.style.borderColor = currentPageTextColor;
                   }
                   e.currentTarget.style.transform = "scale(1)";
                 }}
@@ -341,11 +345,11 @@ export default function Header() {
                   </>
                 ) : (
                   // X 아이콘 (메뉴가 열려 있을 때)
-                  <X
-                    size={isMobile ? 18 : 24}
-                    strokeWidth={2.5}
-                    color={currentPageTextColor}
-                    style={{ transform: "scale(1.15)" }} // 크기를 약간 키워 햄버거 아이콘과 비슷한 시각적 크기로 조정
+                  <X 
+                    size={24}
+                    strokeWidth={2}
+                    color={currentPageTextColor} 
+                    style={{ transform: "scale(1.2)" }}
                   />
                 )}
               </button>
