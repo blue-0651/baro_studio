@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export default function NotFound() {
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-[#FFFBF5] px-4">
@@ -7,13 +9,13 @@ export default function NotFound() {
                     The page you requested does not exist or has been moved.
                     Please check that the address is correct.
                 </p>
-                <a
+                <Link
                     href="/"
-                    className="px-6 py-3 bg-[#F68E1E] rounded-md hover:bg-[#E57D0D] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#A6D6E7] transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-white font-medium rounded-lg  duration-200"
+                    className="px-6 py-3 bg-[#F68E1E] rounded-md hover:bg-[#E57D0D] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#A6D6E7] transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-white font-medium rounded-lg duration-200"
                 >
                     Return to Home
-                </a>
+                </Link>
             </div>
-        </div >
+        </div>
     );
 }
