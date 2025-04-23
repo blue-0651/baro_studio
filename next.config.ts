@@ -1,10 +1,24 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   eslint: {
-    // 빌드 시 ESLint 오류를 경고로 변경 (배포 실패를 방지)
     ignoreDuringBuilds: true,
+  },
+  experimental: {
+    serverComponentsExternalPackages: ["nodemailer"],
+  },
+  async headers() {
+    return [
+      {
+        source: "/api/quote",
+        headers: [
+          {
+            key: "Content-Type",
+            value: "multipart/form-data",
+          },
+        ],
+      },
+    ];
   },
 };
 

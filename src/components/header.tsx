@@ -35,6 +35,7 @@ export default function Header() {
 
   // 모바일 화면 여부 확인을 위한 상태 추가
   const [isMobile, setIsMobile] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
 
   // 화면 크기 변경 감지를 위한 useEffect 추가
   useEffect(() => {
@@ -287,12 +288,12 @@ export default function Header() {
                   ...(menuOpen && {
                     width: "29px",
                     height: "29px",
-                    border: `1px solid ${currentPageTextColor}`,
-                    padding: "6px",
+                    padding: "3px",
                   })
                 }}
                 onClick={() => setMenuOpen(!menuOpen)}
                 onMouseOver={(e) => {
+                  setIsHovering(true);
                   if (!menuOpen) {
                     const lines = e.currentTarget.querySelectorAll('div');
                     lines.forEach(line => {
@@ -305,6 +306,7 @@ export default function Header() {
                   e.currentTarget.style.transform = "scale(1.05)";
                 }}
                 onMouseOut={(e) => {
+                  setIsHovering(false);
                   if (!menuOpen) {
                     const lines = e.currentTarget.querySelectorAll('div');
                     lines.forEach(line => {
@@ -345,10 +347,10 @@ export default function Header() {
                   </>
                 ) : (
                   // X 아이콘 (메뉴가 열려 있을 때)
-                  <X 
+                  <X
                     size={24}
                     strokeWidth={2}
-                    color={currentPageTextColor} 
+                    color={isHovering ? navLinkHoverColor : currentPageTextColor}
                     style={{ transform: "scale(1.2)" }}
                   />
                 )}

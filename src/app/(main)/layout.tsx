@@ -54,8 +54,8 @@ export default function RootLayout({
             <ScrollTopButton />
             <RequestButton />
           </div>
+          <Footer />
         </LangProvider>
-        <Footer />
       </body>
     </html>
   );

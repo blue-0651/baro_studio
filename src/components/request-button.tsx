@@ -12,13 +12,13 @@ export default function RequestButton() {
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 768);
     };
-    
+
     // 초기 실행
     checkMobile();
-    
+
     // 화면 크기 변경 시 이벤트 리스너
     window.addEventListener('resize', checkMobile);
-    
+
     // 컴포넌트 언마운트 시 이벤트 리스너 제거
     return () => {
       window.removeEventListener('resize', checkMobile);
@@ -33,7 +33,7 @@ export default function RequestButton() {
           top: isMobile ? "30%" : "30%",
           right: isMobile ? "20px" : "30px",
           transform: "translateY(-50%)",
-          zIndex: 99,
+          zIndex: 10,
           width: isMobile ? "100px" : "140px",
           height: isMobile ? "100px" : "140px",
           cursor: "pointer",

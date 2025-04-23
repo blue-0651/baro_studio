@@ -2,31 +2,44 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { Mail, Youtube, Linkedin } from "lucide-react";
+import { Mail } from "lucide-react";
 import Image from "next/image";
+import { useLang } from "@/context/LangContext";
+
+type Language = 'kr' | 'en';
+
+const footerTranslations = {
+  address: {
+    kr: "주소 : 경기도 화성시 향남읍 토성로 310-30 우편번호 18589",
+    en: "Address : 310-30, Toseong-ro, Hyangnam-eup, Hwaseong-si, Gyeongi-do, S.Korea 18589"
+  },
+  email: {
+    kr: "이메일 : info@baro-studio.com",
+    en: "Email : info@baro-studio.com"
+  },
+  copyright: {
+    kr: `© ${new Date().getFullYear()} BARO. All rights reserved.`,
+    en: `© ${new Date().getFullYear()} BARO. All rights reserved.`
+  }
+};
+
 
 export default function Footer() {
-  // 모바일 화면 여부 확인을 위한 상태 추가
   const [isMobile, setIsMobile] = useState(false);
+  const { lang } = useLang() as { lang: Language };
 
-  // 화면 크기 변경 감지를 위한 useEffect 추가
   useEffect(() => {
-    // 초기 로드 시 화면 크기 확인
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 768);
     };
-
-    // 초기 실행
     checkMobile();
-
-    // 화면 크기 변경 시 이벤트 리스너
     window.addEventListener('resize', checkMobile);
-
-    // 컴포넌트 언마운트 시 이벤트 리스너 제거
     return () => {
       window.removeEventListener('resize', checkMobile);
     };
   }, []);
+
+  const currentLang = lang || 'kr';
 
   return (
     <footer
@@ -35,34 +48,32 @@ export default function Footer() {
         padding: "1rem 0",
         zIndex: 150,
         width: "100%",
-        minHeight: "80px", // 최소 높이 설정
+        minHeight: "80px",
       }}
     >
       <div
         style={{
           marginRight: "2%",
           marginLeft: "2%",
-          padding: isMobile ? "0 1rem" : "0 2rem", // 모바일에서 패딩 줄임
+          padding: isMobile ? "0 1rem" : "0 2rem",
           display: "flex",
-          flexDirection: isMobile ? "column" : "row", // 모바일에서는 세로로 배치
+          flexDirection: isMobile ? "column" : "row",
           justifyContent: "space-between",
           alignItems: "center",
-          gap: isMobile ? "1.5rem" : "0", // 모바일에서 간격 추가
-          position: "relative" // 상대 위치 설정
+          gap: isMobile ? "1.5rem" : "0",
+          position: "relative"
         }}
       >
 
-        {/* 소셜 미디어 아이콘 섹션 - 왼쪽 */}
         <div
           style={{
             display: "flex",
             alignItems: "center",
             gap: "1rem",
-            zIndex: 2 // 아이콘에 z-index 설정
+            zIndex: 2
           }}
         >
-
-          <Link href="mailto:contact@example.com" aria-label="Email" style={{ textDecoration: 'none' }}>
+          <Link href="mailto:info@baro-studio.com" aria-label="Email" style={{ textDecoration: 'none' }}>
             <div
               style={{
                 width: "2.5rem",
@@ -75,11 +86,9 @@ export default function Footer() {
                 backgroundColor: 'transparent',
               }}
             >
-
               <Mail style={{ width: "1.25rem", height: "1.25rem", color: "black" }} strokeWidth={2} />
             </div>
           </Link>
-
 
           <Link
             href="https://youtube.com"
@@ -110,7 +119,6 @@ export default function Footer() {
             </div>
           </Link>
 
-
           <Link
             href="https://linkedin.com"
             target="_blank"
@@ -140,11 +148,11 @@ export default function Footer() {
             </div>
           </Link>
 
-          <Link 
-            href="https://blog.naver.com/baro_studio" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            aria-label="Naver Blog" 
+          <Link
+            href="https://blog.naver.com/baro_studio"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Naver Blog"
             style={{ textDecoration: 'none' }}
           >
             <div
@@ -170,7 +178,6 @@ export default function Footer() {
           </Link>
         </div>
 
-        {/* 주소와 저작권 정보 섹션 - 정중앙 */}
         <div style={{
           position: isMobile ? "static" : "absolute",
           left: isMobile ? "auto" : "50%",
@@ -181,24 +188,30 @@ export default function Footer() {
           alignItems: "center",
           justifyContent: "center",
           width: isMobile ? "100%" : "auto",
-          zIndex: 1 // 낮은 z-index로 설정
+          zIndex: 1
         }}>
           <div style={{
             fontSize: isMobile ? "0.7rem" : "0.8rem",
             color: "#666666",
             textAlign: "center"
           }}>
-            <p style={{ margin: "0.3rem 0" }}>Address: to be announced</p>
-            <p style={{ margin: "0.3rem 0" }}>© {new Date().getFullYear()} BARO. All rights reserved.</p>
+            <p style={{ margin: "0.3rem 0" }}>
+              {footerTranslations.address[currentLang]}
+            </p>
+            <p style={{ margin: "0.3rem 0" }}>
+              {footerTranslations.email[currentLang]}
+            </p>
+            <p style={{ margin: "0.3rem 0" }}>
+              {footerTranslations.copyright[currentLang]}
+            </p>
           </div>
         </div>
 
-        {/* 로고 섹션 - 오른쪽 */}
         <div style={{
           display: "flex",
           justifyContent: isMobile ? "center" : "flex-end",
           alignItems: "center",
-          zIndex: 2 // 로고에 z-index 설정
+          zIndex: 2
         }}>
           <Link
             href="/"
