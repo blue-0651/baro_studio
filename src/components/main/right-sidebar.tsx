@@ -78,7 +78,7 @@ export default function Sidebar({
                 position: 'fixed', top: 0, right: 0, bottom: 0,
                 width: isMobile ? '100%' : '1000px',
                 maxWidth: isMobile ? '100vw' : '90vw',
-                backgroundColor: sidebarBgColor,
+                backgroundColor: 'rgba(255, 255, 255, 0.55)',
                 backdropFilter: 'blur(30px)',
                 WebkitBackdropFilter: 'blur(30px)',
                 zIndex: 101,

@@ -4,9 +4,8 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  experimental: {
-    serverComponentsExternalPackages: ["nodemailer"],
-  },
+  serverExternalPackages: ["nodemailer"],
+
   async headers() {
     return [
       {
@@ -14,6 +13,7 @@ const nextConfig: NextConfig = {
         headers: [
           {
             key: "Content-Type",
+
             value: "multipart/form-data",
           },
         ],

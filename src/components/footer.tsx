@@ -30,7 +30,9 @@ export default function Footer() {
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
+      if (typeof window !== 'undefined') {
+        setIsMobile(window.innerWidth <= 768);
+      }
     };
     checkMobile();
     window.addEventListener('resize', checkMobile);
@@ -39,7 +41,7 @@ export default function Footer() {
     };
   }, []);
 
-  const currentLang = lang || 'kr';
+  const currentLang = lang || 'en';
 
   return (
     <footer
@@ -49,6 +51,8 @@ export default function Footer() {
         zIndex: 150,
         width: "100%",
         minHeight: "80px",
+        display: 'flex',
+        alignItems: 'center'
       }}
     >
       <div
@@ -60,8 +64,9 @@ export default function Footer() {
           flexDirection: isMobile ? "column" : "row",
           justifyContent: "space-between",
           alignItems: "center",
-          gap: isMobile ? "1.5rem" : "0",
-          position: "relative"
+          gap: isMobile ? "1.5rem" : "1rem",
+          position: "relative",
+          width: '100%'
         }}
       >
 
@@ -70,7 +75,8 @@ export default function Footer() {
             display: "flex",
             alignItems: "center",
             gap: "1rem",
-            zIndex: 2
+            zIndex: 2,
+            order: isMobile ? 3 : 1
           }}
         >
           <Link href="mailto:info@baro-studio.com" aria-label="Email" style={{ textDecoration: 'none' }}>
@@ -112,6 +118,7 @@ export default function Footer() {
                   src="/image_youtube.png"
                   alt="YouTube"
                   fill
+                  sizes="2.5rem"
                   style={{ objectFit: "contain" }}
                   priority
                 />
@@ -141,6 +148,7 @@ export default function Footer() {
                   src="/image_linkedin.png"
                   alt="LinkedIn"
                   fill
+                  sizes="2.5rem"
                   style={{ objectFit: "contain" }}
                   priority
                 />
@@ -165,11 +173,13 @@ export default function Footer() {
                 justifyContent: "center",
               }}
             >
+
               <div style={{ position: "relative", width: "2.5rem", height: "2.5rem" }}>
                 <Image
                   src="/image_naver.png"
                   alt="Naver Blog"
                   fill
+                  sizes="2.5rem"
                   style={{ objectFit: "contain" }}
                   priority
                 />
@@ -179,39 +189,39 @@ export default function Footer() {
         </div>
 
         <div style={{
-          position: isMobile ? "static" : "absolute",
-          left: isMobile ? "auto" : "50%",
-          top: isMobile ? "auto" : "50%",
-          transform: isMobile ? "none" : "translate(-50%, -50%)",
+
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
           width: isMobile ? "100%" : "auto",
-          zIndex: 1
+          zIndex: 1,
+          order: isMobile ? 1 : 2
         }}>
           <div style={{
             fontSize: isMobile ? "0.7rem" : "0.8rem",
             color: "#666666",
             textAlign: "center"
           }}>
-            <p style={{ margin: "0.3rem 0" }}>
+            <p style={{ margin: "0.2rem 0" }}>
               {footerTranslations.address[currentLang]}
             </p>
-            <p style={{ margin: "0.3rem 0" }}>
+            <p style={{ margin: "0.2rem 0" }}>
               {footerTranslations.email[currentLang]}
             </p>
-            <p style={{ margin: "0.3rem 0" }}>
+            <p style={{ margin: "0.2rem 0" }}>
               {footerTranslations.copyright[currentLang]}
             </p>
           </div>
         </div>
 
+        {/* 로고 */}
         <div style={{
           display: "flex",
           justifyContent: isMobile ? "center" : "flex-end",
           alignItems: "center",
-          zIndex: 2
+          zIndex: 2,
+          order: isMobile ? 2 : 3
         }}>
           <Link
             href="/"
