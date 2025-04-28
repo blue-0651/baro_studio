@@ -9,16 +9,10 @@ import "./globals.css";
 import 'primereact/resources/themes/lara-light-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
-import type { Metadata, Viewport } from "next";
+import type { Viewport } from "next";
 
 
 const inter = Inter({ subsets: ["latin"] });
-
-export const metadata: Metadata = {
-  title: "baro studio",
-  description: "",
-};
-
 
 export const viewport: Viewport = {
   width: 'device-width',

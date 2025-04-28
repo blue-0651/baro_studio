@@ -32,7 +32,6 @@ const cards = [
   // { id: 6, title: "Compression Molding", icon: "/card1.png", href: "/capabilities/compression" },
 ];
 
-
 export default function Home() {
   const { lang } = useLang();
 
@@ -69,7 +68,6 @@ export default function Home() {
 
   return (
     <main>
-
       <FullScreenSlider slides={currentSlides} />
       <CardSlider cards={currentCards} />
       <Event />
