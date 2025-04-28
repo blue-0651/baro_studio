@@ -15,14 +15,72 @@ import { X } from "lucide-react";
 //   setLang: Dispatch<SetStateAction<string>>;
 // }
 
+// 배경 이미지의 평균 색상을 계산하는 함수
+const getAverageColor = async (imageUrl: string): Promise<{ r: number; g: number; b: number }> => {
+  return new Promise((resolve) => {
+    const img = new window.Image();
+    img.crossOrigin = "Anonymous";
+    img.src = imageUrl;
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return resolve({ r: 0, g: 0, b: 0 });
+      
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx.drawImage(img, 0, 0);
+      
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const data = imageData.data;
+      
+      let r = 0, g = 0, b = 0;
+      for (let i = 0; i < data.length; i += 4) {
+        r += data[i];
+        g += data[i + 1];
+        b += data[i + 2];
+      }
+      
+      const pixelCount = data.length / 4;
+      resolve({
+        r: Math.round(r / pixelCount),
+        g: Math.round(g / pixelCount),
+        b: Math.round(b / pixelCount)
+      });
+    };
+    img.onerror = () => resolve({ r: 0, g: 0, b: 0 });
+  });
+};
+
+// 배경 색상에 따른 텍스트 색상 결정 함수
+const getTextColor = (bgColor: { r: number; g: number; b: number }): string => {
+  // 밝기 계산 (ITU-R BT.709 표준)
+  const brightness = (0.2126 * bgColor.r + 0.7152 * bgColor.g + 0.0722 * bgColor.b);
+  return brightness > 128 ? '#333333' : '#FFFFFF';
+};
+
 // 로고 부분을 단순 요소로 대체
 export default function Header() {
   const { lang, setLang } = useLang();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [textColor, setTextColor] = useState('#333333');
 
   const pathname = usePathname();
   const isMainPage = pathname === '/';
-  const currentPageTextColor = '#333333';
+
+  // 배경 이미지 색상 감지 및 텍스트 색상 업데이트
+  useEffect(() => {
+    const updateTextColor = async () => {
+      if (isMainPage) {
+        const bgColor = await getAverageColor('/w_logo.png');
+        setTextColor(getTextColor(bgColor));
+      } else {
+        setTextColor('#333333');
+      }
+    };
+    updateTextColor();
+  }, [isMainPage]);
+
+  const currentPageTextColor = textColor;
   /** 색상정의 (변경 없음) */
   const navLinkHoverColor = "#F68E1E";
   const langButtonHoverColor = "#F68E1E";
