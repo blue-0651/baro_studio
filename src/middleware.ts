@@ -2,7 +2,8 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 export function middleware(request: NextRequest) {
-  const maintenanceMode = process.env.NEXT_PUBLIC_MAINTENANCE_MODE 
+  // 정확한 문자열 비교로 변경
+  const maintenanceMode = process.env.NEXT_PUBLIC_MAINTENANCE_MODE === 'true'
 
   // maintenance 페이지 접근 시
   if (request.nextUrl.pathname.startsWith('/maintenance')) {
