@@ -13,12 +13,15 @@ const nextConfig: NextConfig = {
         headers: [
           {
             key: "Content-Type",
-
             value: "multipart/form-data",
           },
         ],
       },
     ];
+  },
+
+  images: {
+    domains: ['localhost'],
   },
 };
 
